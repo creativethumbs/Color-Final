@@ -46,6 +46,23 @@ void draw() {
   simContrastPage3_print();
   goToNext();
   
+  for(int i = 0; i < 5; i++) { 
+    simContrastPage4();
+    goToNext();
+  }
+  /*
+  // red foreground
+  simContrastPage4(190,255,0,55,0,113);
+  goToNext();
+  
+  // blue foreground
+  simContrastPage4(0,114,39,180,190,255);
+  goToNext();
+  
+  //yellow foreground
+  simContrastPage4(240,255,170,255,0,21);
+  goToNext();*/
+  
   // Exit the program 
   println("Finished.");
   exit();
@@ -93,9 +110,9 @@ void simContrastPage1() {
   // recipe for simple simultaneous contrast  
   
   // prepare the first color
-  float r_col1 = random(2,95) + random(3,80) + random(2,73);
-  float g_col1 = random(2,90) + random(2,83) + random(3,75);
-  float b_col1 = random(3,93) + random(2,85) + random(2,70);
+  float r_col1 = random(2,84) + random(2,84) + random(2,84);
+  float g_col1 = random(2,84) + random(2,84) + random(2,84);
+  float b_col1 = random(2,84) + random(2,84) + random(2,84); 
   
   color col1 = color(r_col1, g_col1, b_col1);
   
@@ -136,15 +153,79 @@ void simContrastPage1() {
   
   popMatrix();
 }
+void simContrastPage1_print() {
+fill(0);
+textAlign(LEFT);
+rectMode(CORNER);
+textFont(codeFont, 40);
+pushMatrix();
+translate(200, 200 );
+String code = "";
+code += "// recipe for simple simultaneous contrast\n";
+code += "\n";
+code += "  // prepare the first color\n";
+code += "  float r_col1 = random(2,84) + random(2,84) + random(2,84);\n";
+code += "  float g_col1 = random(2,84) + random(2,84) + random(2,84);\n";
+code += "  float b_col1 = random(2,84) + random(2,84) + random(2,84);\n";
+code += "\n";
+code += "  color col1 = color(r_col1, g_col1, b_col1);\n";
+code += "\n";
+code += "  // prepare the 'opposite' color to the first color\n";
+code += "  // season with a touch of randomness\n";
+code += "  color col2 = color(255 - r_col1 + random(-7,7),\n";
+code += "                      255 - g_col1 + random(-7,7),\n";
+code += "                      255 - b_col1 + random(-7,7));\n";
+code += "\n";
+code += "  // evenly mix the first two colors to create\n";
+code += "  // the 'middle' color\n";
+code += "  // (recommended) season with randomness\n";
+code += "  color mid = color((r_col1+red(col2))/2f + random(-15,15),\n";
+code += "                    (g_col1+green(col2))/2f + random(-15,15),\n";
+code += "                    (b_col1+blue(col2))/2f + random(-15,15)) ;\n";
+code += "\n";
+code += "  // pre-translate the transformation matrix\n";
+code += "  // to the size of your margins\n";
+code += "  pushMatrix();\n";
+code += "  translate(margin, margin);\n";
+code += "\n";
+code += "  rectMode(CORNER);\n";
+code += "\n";
+code += "  // arrange opposing colors beside each other\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+goToNext();
+code = "";
+pushMatrix();
+translate(200, 200 );
+textFont(codeFont, 40);
+code += "  fill(col1);\n";
+code += "  stroke(col1);\n";
+code += "  rect(0,0,pgwidth/2f,pgheight);\n";
+code += "  fill(col2);\n";
+code += "  stroke(col2);\n";
+code += "  rect(pgwidth/2f,0,pgwidth/2f,pgheight);\n";
+code += "\n";
+code += "  // top with the middle color\n";
+code += "  fill(mid);\n";
+code += "  noStroke();\n";
+code += "\n";
+code += "  triangle(pgwidth*0.1,pgheight/2f,pgwidth*0.4,pgheight/4f, pgwidth*0.4,pgheight*0.75);\n";
+code += "  triangle(pgwidth*0.9,pgheight/2f,pgwidth*0.6,pgheight/4f, pgwidth*0.6,pgheight*0.75);\n";
+code += "\n";
+code += "  popMatrix();\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+
+}
 
 // more sophisticated demonstrations of simultaneous contrast
 void simContrastPage2() {
   // recipe for holed simultaneous contrast 
   
   // prepare the first color
-  float r_col1 = random(3,95) + random(4,80) + random(3,73);
-  float g_col1 = random(3,90) + random(4,83) + random(3,75);
-  float b_col1 = random(3,93) + random(4,85) + random(3,70);
+  float r_col1 = random(2,84) + random(2,84) + random(2,84);
+  float g_col1 = random(2,84) + random(2,84) + random(2,84);
+  float b_col1 = random(2,84) + random(2,84) + random(2,84); 
   
   color col1 = color(r_col1, g_col1, b_col1);
   
@@ -206,15 +287,108 @@ void simContrastPage2() {
   
   popMatrix();
 }
+void simContrastPage2_print() {
+fill(0);
+textAlign(LEFT);
+rectMode(CORNER);
+textFont(codeFont, 40);
+pushMatrix();
+translate(200, 200 );
+String code = "";
+code += "// recipe for holed simultaneous contrast\n";
+code += "\n";
+code += "  // prepare the first color\n";
+code += "  float r_col1 = random(2,84) + random(2,84) + random(2,84);\n";
+code += "  float g_col1 = random(2,84) + random(2,84) + random(2,84);\n";
+code += "  float b_col1 = random(2,84) + random(2,84) + random(2,84);\n";
+code += "\n";
+code += "  color col1 = color(r_col1, g_col1, b_col1);\n";
+code += "\n";
+code += "  // prepare the 'opposite' color to the first color\n";
+code += "  // season with a touch of randomness\n";
+code += "  color col2 = color(255 - r_col1 + random(-7,7),\n";
+code += "                      255 - g_col1 + random(-7,7),\n";
+code += "                      255 - b_col1 + random(-7,7));\n";
+code += "\n";
+code += "  // evenly mix the first two colors to create\n";
+code += "  // the 'middle' color\n";
+code += "  // (recommended) season with randomness\n";
+code += "  color mid = color((r_col1+red(col2))/2f + random(-15,15),\n";
+code += "                    (g_col1+green(col2))/2f + random(-15,15),\n";
+code += "                    (b_col1+blue(col2))/2f + random(-15,15)) ;\n";
+code += "\n";
+code += "  // pre-translate the transformation matrix\n";
+code += "  // to the size of your margins\n";
+code += "  pushMatrix();\n";
+code += "  translate(margin, margin);\n";
+code += "\n";
+code += "  rectMode(CORNER);\n";
+code += "\n";
+code += "  // arrange opposing colors beside each other\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+goToNext();
+code = "";
+pushMatrix();
+translate(200, 200 );
+textFont(codeFont, 40);
+code += "  fill(col1);\n";
+code += "  stroke(col1);\n";
+code += "  rect(0,0,pgwidth/2f,pgheight);\n";
+code += "  fill(col2);\n";
+code += "  stroke(col2);\n";
+code += "  rect(pgwidth/2f,0,pgwidth/2f,pgheight);\n";
+code += "\n";
+code += "  // top with the middle color\n";
+code += "  rectMode(CENTER);\n";
+code += "  fill(mid);\n";
+code += "  noStroke();\n";
+code += "  rect((pgwidth)/4f,pgheight/2f,pgwidth/5f,pgheight/2f);\n";
+code += "  rect((pgwidth*3f)/4f,pgheight/2f,pgwidth/5f,pgheight/2f);\n";
+code += "\n";
+code += "  // slice holes in the middle for a more dramatic effect\n";
+code += "  rectMode(CORNER);\n";
+code += "  fill(col1);\n";
+code += "  for(int rows = 0; rows < 6; rows++) {\n";
+code += "    for(int cols = 0; cols < 4; cols++) {\n";
+code += "      rect(pgwidth * 0.168 + 140*cols, pgheight * 0.3 + 140*rows,100,100);\n";
+code += "    }\n";
+code += "  }\n";
+code += "\n";
+code += "  fill(col2);\n";
+code += "  float rand3 = random(-350,350);\n";
+code += "  float rand4 = random(-250,250);\n";
+code += "  pushMatrix();\n";
+code += "  //translate(rand3, rand4);\n";
+code += "  for(int rows = 0; rows < 6; rows++) {\n";
+code += "    for(int cols = 0; cols < 4; cols++) {\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+goToNext();
+code = "";
+pushMatrix();
+translate(200, 200 );
+textFont(codeFont, 40);
+code += "      rect(pgwidth * 0.668 + 140*cols, pgheight * 0.3 + 140*rows,100,100);\n";
+code += "    }\n";
+code += "  }\n";
+code += "  popMatrix();\n";
+code += "\n";
+code += "  popMatrix();\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+
+
+}
 
 // a schotter tribute
 void simContrastPage3() {
   // recipe for schotter simultaneous contrast  
   
   // prepare the first color
-  float r_col1 = random(10,240);
-  float g_col1 = random(10,240);
-  float b_col1 = random(10,240);
+  float r_col1 = random(2,84) + random(2,84) + random(2,84);
+  float g_col1 = random(2,84) + random(2,84) + random(2,84);
+  float b_col1 = random(2,84) + random(2,84) + random(2,84); 
   
   color col1 = color(r_col1, g_col1, b_col1);
   
@@ -289,9 +463,9 @@ String code = "";
 code += "// recipe for schotter simultaneous contrast\n";
 code += "\n";
 code += "  // prepare the first color\n";
-code += "  float r_col1 = random(10,240);\n";
-code += "  float g_col1 = random(10,240);\n";
-code += "  float b_col1 = random(10,240);\n";
+code += "  float r_col1 = random(2,84) + random(2,84) + random(2,84);\n";
+code += "  float g_col1 = random(2,84) + random(2,84) + random(2,84);\n";
+code += "  float b_col1 = random(2,84) + random(2,84) + random(2,84);\n";
 code += "\n";
 code += "  color col1 = color(r_col1, g_col1, b_col1);\n";
 code += "\n";
@@ -373,163 +547,47 @@ popMatrix();
 
 }
 
-void simContrastPage2_print() {
-fill(0);
-textAlign(LEFT);
-rectMode(CORNER);
-textFont(codeFont, 40);
-pushMatrix();
-translate(200, 200 );
-String code = "";
-code += "// recipe for holed simultaneous contrast\n";
-code += "\n";
-code += "  // prepare the first color\n";
-code += "  float r_col1 = random(3,95) + random(4,80) + random(3,73);\n";
-code += "  float g_col1 = random(3,90) + random(4,83) + random(3,75);\n";
-code += "  float b_col1 = random(3,93) + random(4,85) + random(3,70);\n";
-code += "\n";
-code += "  color col1 = color(r_col1, g_col1, b_col1);\n";
-code += "\n";
-code += "  // prepare the 'opposite' color to the first color\n";
-code += "  // season with a touch of randomness\n";
-code += "  color col2 = color(255 - r_col1 + random(-7,7),\n";
-code += "                      255 - g_col1 + random(-7,7),\n";
-code += "                      255 - b_col1 + random(-7,7));\n";
-code += "\n";
-code += "  // evenly mix the first two colors to create\n";
-code += "  // the 'middle' color\n";
-code += "  // (recommended) season with randomness\n";
-code += "  color mid = color((r_col1+red(col2))/2f + random(-15,15),\n";
-code += "                    (g_col1+green(col2))/2f + random(-15,15),\n";
-code += "                    (b_col1+blue(col2))/2f + random(-15,15)) ;\n";
-code += "\n";
-code += "  // pre-translate the transformation matrix\n";
-code += "  // to the size of your margins\n";
-code += "  pushMatrix();\n";
-code += "  translate(margin, margin);\n";
-code += "\n";
-code += "  rectMode(CORNER);\n";
-code += "\n";
-code += "  // arrange opposing colors beside each other\n";
-text(code, 0, 0, width*0.8, height*0.8);
-popMatrix();
-goToNext();
-code = "";
-pushMatrix();
-translate(200, 200 );
-textFont(codeFont, 40);
-code += "  fill(col1);\n";
-code += "  stroke(col1);\n";
-code += "  rect(0,0,pgwidth/2f,pgheight);\n";
-code += "  fill(col2);\n";
-code += "  stroke(col2);\n";
-code += "  rect(pgwidth/2f,0,pgwidth/2f,pgheight);\n";
-code += "\n";
-code += "  // top with the middle color\n";
-code += "  rectMode(CENTER);\n";
-code += "  fill(mid);\n";
-code += "  noStroke();\n";
-code += "  rect((pgwidth)/4f,pgheight/2f,pgwidth/5f,pgheight/2f);\n";
-code += "  rect((pgwidth*3f)/4f,pgheight/2f,pgwidth/5f,pgheight/2f);\n";
-code += "\n";
-code += "  // slice holes in the middle for a more dramatic effect\n";
-code += "  rectMode(CORNER);\n";
-code += "  fill(col1);\n";
-code += "  for(int rows = 0; rows < 6; rows++) {\n";
-code += "    for(int cols = 0; cols < 4; cols++) {\n";
-code += "      rect(pgwidth * 0.168 + 140*cols, pgheight * 0.3 + 140*rows,100,100);\n";
-code += "    }\n";
-code += "  }\n";
-code += "\n";
-code += "  fill(col2);\n";
-code += "  float rand3 = random(-350,350);\n";
-code += "  float rand4 = random(-250,250);\n";
-code += "  pushMatrix();\n";
-code += "  //translate(rand3, rand4);\n";
-code += "  for(int rows = 0; rows < 6; rows++) {\n";
-code += "    for(int cols = 0; cols < 4; cols++) {\n";
-text(code, 0, 0, width*0.8, height*0.8);
-popMatrix();
-goToNext();
-code = "";
-pushMatrix();
-translate(200, 200 );
-textFont(codeFont, 40);
-code += "      rect(pgwidth * 0.668 + 140*cols, pgheight * 0.3 + 140*rows,100,100);\n";
-code += "    }\n";
-code += "  }\n";
-code += "  popMatrix();\n";
-code += "\n";
-code += "  popMatrix();\n";
-text(code, 0, 0, width*0.8, height*0.8);
-popMatrix();
-
-
-}
-
-void simContrastPage1_print() {
-fill(0);
-textAlign(LEFT);
-rectMode(CORNER);
-textFont(codeFont, 40);
-pushMatrix();
-translate(200, 200 );
-String code = "";
-code += "// recipe for simple simultaneous contrast\n";
-code += "\n";
-code += "  // prepare the first color\n";
-code += "  float r_col1 = random(2,95) + random(3,80) + random(2,73);\n";
-code += "  float g_col1 = random(2,90) + random(2,83) + random(3,75);\n";
-code += "  float b_col1 = random(3,93) + random(2,85) + random(2,70);\n";
-code += "\n";
-code += "  color col1 = color(r_col1, g_col1, b_col1);\n";
-code += "\n";
-code += "  // prepare the 'opposite' color to the first color\n";
-code += "  // season with a touch of randomness\n";
-code += "  color col2 = color(255 - r_col1 + random(-7,7),\n";
-code += "                      255 - g_col1 + random(-7,7),\n";
-code += "                      255 - b_col1 + random(-7,7));\n";
-code += "\n";
-code += "  // evenly mix the first two colors to create\n";
-code += "  // the 'middle' color\n";
-code += "  // (recommended) season with randomness\n";
-code += "  color mid = color((r_col1+red(col2))/2f + random(-15,15),\n";
-code += "                    (g_col1+green(col2))/2f + random(-15,15),\n";
-code += "                    (b_col1+blue(col2))/2f + random(-15,15)) ;\n";
-code += "\n";
-code += "  // pre-translate the transformation matrix\n";
-code += "  // to the size of your margins\n";
-code += "  pushMatrix();\n";
-code += "  translate(margin, margin);\n";
-code += "\n";
-code += "  rectMode(CORNER);\n";
-code += "\n";
-code += "  // arrange opposing colors beside each other\n";
-text(code, 0, 0, width*0.8, height*0.8);
-popMatrix();
-goToNext();
-code = "";
-pushMatrix();
-translate(200, 200 );
-textFont(codeFont, 40);
-code += "  fill(col1);\n";
-code += "  stroke(col1);\n";
-code += "  rect(0,0,pgwidth/2f,pgheight);\n";
-code += "  fill(col2);\n";
-code += "  stroke(col2);\n";
-code += "  rect(pgwidth/2f,0,pgwidth/2f,pgheight);\n";
-code += "\n";
-code += "  // top with the middle color\n";
-code += "  fill(mid);\n";
-code += "  noStroke();\n";
-code += "\n";
-code += "  triangle(pgwidth*0.1,pgheight/2f,pgwidth*0.4,pgheight/4f, pgwidth*0.4,pgheight*0.75);\n";
-code += "  triangle(pgwidth*0.9,pgheight/2f,pgwidth*0.6,pgheight/4f, pgwidth*0.6,pgheight*0.75);\n";
-code += "\n";
-code += "  popMatrix();\n";
-text(code, 0, 0, width*0.8, height*0.8);
-popMatrix();
-
+// painterly study 
+void simContrastPage4() {
+  
+  colorMode(HSB,360,100,100); 
+  color col1 = color(random(0,360), random(90,100), random(80,100));
+  
+  rectMode(CORNER);
+  pushMatrix();
+  translate(margin, margin);
+  noStroke(); 
+  
+  color bg = color((hue(col1)+180)%360, random(90,100), random(80,100));
+  fill(bg);
+  rect(0, 0, pgwidth,pgheight);
+  
+  for(int i = 0; i < 90; i++) {
+    float posX = random(0, pgwidth-200);
+    float posY = random(0, pgheight-200);  
+    
+    float rectw = random(100, min(1200, pgwidth-posX));
+    float recth = random(200, min(800, pgheight-posY));
+    
+    fill(col1, 50);
+    rect(posX, posY, rectw,recth);
+    
+  }
+  
+  for(int i = 0; i < 10; i++) {
+    float posX = random(0, pgwidth-200);
+    float posY = random(0, pgheight-200);  
+    
+    float rectw = random(100, min(1200, pgwidth-posX));
+    float recth = random(200, min(800, pgheight-posY));
+    
+    fill(bg,70);
+    rect(posX, posY, rectw,recth);
+    
+  }
+  
+  popMatrix();
+  colorMode(RGB);
 }
 
 void titlePage() { 
