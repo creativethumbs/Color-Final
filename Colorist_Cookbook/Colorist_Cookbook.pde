@@ -8,6 +8,8 @@ float pgwidth;
 float pgheight;
 int margin = 200;
 
+PShape blob;
+
 void setup() {
   size(3508, 2480, PDF, "The Colorist Cookbook.pdf");
   pgwidth = width-(margin*2);
@@ -16,6 +18,8 @@ void setup() {
   titleFont = createFont("Cheap Potatoes Black Thin.ttf",148); 
   mainFont = createFont("monkey.ttf",148);
   codeFont = createFont("PIXEARG_.TTF",148); 
+  
+  blob = loadShape("blob.svg");
 }
 
 void draw() {
@@ -50,18 +54,8 @@ void draw() {
     simContrastPage4();
     goToNext();
   }
-  /*
-  // red foreground
-  simContrastPage4(190,255,0,55,0,113);
-  goToNext();
   
-  // blue foreground
-  simContrastPage4(0,114,39,180,190,255);
-  goToNext();
-  
-  //yellow foreground
-  simContrastPage4(240,255,170,255,0,21);
-  goToNext();*/
+  monochromePage();
   
   // Exit the program 
   println("Finished.");
@@ -588,6 +582,28 @@ void simContrastPage4() {
   
   popMatrix();
   colorMode(RGB);
+}
+
+void monochromePage() {
+  //fill(236,95,12,5);
+  background(0);
+  noFill();
+  stroke(236,95,12, 60);
+  float posX = 0;
+  float posY;
+  pushMatrix();
+  translate(-500, margin + pgheight/3.0);
+  
+  for(int i = 0; i < 2000; i++) {
+    posY = sin(posX*0.005) * 200;
+    //rect(posX, posY, 500,500);
+    shape(blob,posX,posY);
+    
+    posX += 4;
+  }
+  
+  popMatrix();
+  
 }
 
 void titlePage() { 
