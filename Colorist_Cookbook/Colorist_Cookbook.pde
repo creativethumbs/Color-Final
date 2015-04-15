@@ -10,6 +10,13 @@ int margin = 200;
 
 PShape blob;
 
+// for the palette
+ArrayList<Pixel> colors = new ArrayList<Pixel>();
+float tolerance = 50.0;
+int totalCount = 0; 
+float proptolerance = 0.005;
+PImage[] images = new PImage[7];
+
 void setup() {
   size(3508, 2480, PDF, "The Colorist Cookbook.pdf");
   pgwidth = width-(margin*2);
@@ -20,6 +27,9 @@ void setup() {
   codeFont = createFont("PIXEARG_.TTF",148); 
   
   blob = loadShape("blob.svg");
+  for(int i = 0; i < images.length; i++) {
+    images[i] = loadImage("img"+i+".jpg");
+  }
 }
 
 void draw() {
@@ -54,6 +64,16 @@ void draw() {
     simContrastPage4();
     goToNext();
   }
+  simContrastPage4_print();
+  goToNext();
+  
+  for(int i = 0; i < images.length; i++) {
+    palettePage(i);
+    goToNext();
+  }
+  
+  palettePage_print();
+  goToNext();
   
   monochromePage();
   
@@ -584,6 +604,64 @@ void simContrastPage4() {
   colorMode(RGB);
 }
 
+void simContrastPage4_print() {
+  fill(0);
+textAlign(LEFT);
+rectMode(CORNER);
+textFont(codeFont, 40);
+pushMatrix();
+translate(200, 200 );
+String code = "";
+code += "  colorMode(HSB,360,100,100);\n";
+code += "  color col1 = color(random(0,360), random(90,100), random(80,100));\n";
+code += "\n";
+code += "  rectMode(CORNER);\n";
+code += "  pushMatrix();\n";
+code += "  translate(margin, margin);\n";
+code += "  noStroke();\n";
+code += "\n";
+code += "  color bg = color((hue(col1)+180)%360, random(90,100), random(80,100));\n";
+code += "  fill(bg);\n";
+code += "  rect(0, 0, pgwidth,pgheight);\n";
+code += "\n";
+code += "  for(int i = 0; i < 90; i++) {\n";
+code += "    float posX = random(0, pgwidth-200);\n";
+code += "    float posY = random(0, pgheight-200);\n";
+code += "\n";
+code += "    float rectw = random(100, min(1200, pgwidth-posX));\n";
+code += "    float recth = random(200, min(800, pgheight-posY));\n";
+code += "\n";
+code += "    fill(col1, 50);\n";
+code += "    rect(posX, posY, rectw,recth);\n";
+code += "\n";
+code += "  }\n";
+code += "\n";
+code += "  for(int i = 0; i < 10; i++) {\n";
+code += "    float posX = random(0, pgwidth-200);\n";
+code += "    float posY = random(0, pgheight-200);\n";
+code += "\n";
+code += "    float rectw = random(100, min(1200, pgwidth-posX));\n";
+code += "    float recth = random(200, min(800, pgheight-posY));\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+goToNext();
+code = "";
+pushMatrix();
+translate(200, 200 );
+textFont(codeFont, 40);
+code += "\n";
+code += "    fill(bg,70);\n";
+code += "    rect(posX, posY, rectw,recth);\n";
+code += "\n";
+code += "  }\n";
+code += "\n";
+code += "  popMatrix();\n";
+code += "  colorMode(RGB);\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+
+}
+
 void monochromePage() {
   //fill(236,95,12,5);
   background(0);
@@ -595,8 +673,7 @@ void monochromePage() {
   translate(-500, margin + pgheight/3.0);
   
   for(int i = 0; i < 2000; i++) {
-    posY = sin(posX*0.005) * 200;
-    //rect(posX, posY, 500,500);
+    posY = sin(posX*0.005) * 200; 
     shape(blob,posX,posY);
     
     posX += 4;
@@ -604,6 +681,289 @@ void monochromePage() {
   
   popMatrix();
   
+}
+
+public class Pixel {
+  public color pixelcolor; 
+  public int count;
+}
+
+float colorDist(color c1, color c2) {
+  float r = red(c1) - red(c2);
+  float g = green(c1) - green(c2);
+  float b = blue(c1) - blue(c2);
+  
+  return sqrt(sq(r) + sq(g) + sq(b));
+}
+
+void addPixel(color currpix) {
+  Pixel p = new Pixel();
+  p.pixelcolor = currpix;
+  p.count = 1;
+  colors.add(p);
+  totalCount++;
+}
+
+boolean notBlackorWhite(color col) {
+  return ((col != 0.0) && (col != 255.0)); 
+}
+
+void palettePage(int imgindex) {
+  //
+  totalCount = 0;
+  // colors is an ArrayList of pixel objects
+  // it is initialized as: ArrayList<Pixel> colors = new ArrayList<Pixel>();
+  for(int i = colors.size()-1; i >= 0 ; i--) {
+     colors.remove(i);
+  } 
+  
+  int iwidth = images[imgindex].width;
+  int iheight = images[imgindex].height;
+  images[imgindex].resize(0, (int)pgheight);
+  float palettepos = images[imgindex].width + 50;
+  
+  for(int i = 0; i < iheight; i++) {
+    for(int j = 0; j < iwidth; j++) {
+      color currpix = images[imgindex].get(i,j);
+      
+      if(notBlackorWhite(currpix)) {
+        if(colors.size() == 0) {
+          addPixel(currpix);
+        }
+        
+        else {
+          int idx;
+          boolean foundMatch = false;
+          int prevIdx = 0;
+          float minDist = 1000000.0;
+          for(idx = 0; idx < colors.size(); idx++) {
+            float currDist = colorDist(currpix, colors.get(idx).pixelcolor);
+            if(currDist < tolerance) {
+                  if(foundMatch && (currDist < minDist)) {
+                    colors.get(idx).count++;
+                    colors.get(prevIdx).count--;
+                    
+                    prevIdx = idx;
+                    minDist = currDist;
+                  }
+                  else if(!foundMatch && (currDist < minDist)) {
+                    colors.get(idx).count++;
+                    totalCount++;
+                    foundMatch = true;
+                    prevIdx = idx;
+                    minDist = currDist;
+                  }
+                }
+          }
+          
+          if(!foundMatch) {
+            // couldn't find a matching color
+            addPixel(currpix);
+            
+          }
+          
+        }
+      }
+    }
+  }
+  
+  int netCount = totalCount; 
+  for(int idx = 0; idx < colors.size(); idx++) { 
+    float prop = colors.get(idx).count / ((float)totalCount);
+    
+    if(prop < proptolerance) {
+      netCount -= colors.get(idx).count;
+    }
+  } 
+  rectMode(CORNER);
+  float ypos = 0f;
+  color prevColor= colors.get(0).pixelcolor;
+  
+  pushMatrix();
+  translate(margin + 700, margin);
+  image(images[imgindex], 0,0);
+  
+  for(int idx = 0; idx < colors.size(); idx++) { 
+    float prop = colors.get(idx).count / ((float)netCount);
+    if(prop >= proptolerance) {
+      float rheight = pgheight*prop;
+      
+      stroke(colors.get(idx).pixelcolor);
+      fill(colors.get(idx).pixelcolor);
+    
+      rect(palettepos, ypos, 300, rheight);
+      ypos += rheight;
+      prevColor = colors.get(idx).pixelcolor;
+    }
+  }
+  
+  popMatrix();
+   
+}
+
+void palettePage_print() {
+  fill(0);
+textAlign(LEFT);
+rectMode(CORNER);
+textFont(codeFont, 40);
+pushMatrix();
+translate(200, 200 );
+String code = "";
+code += "// for the palette\n";
+code += "ArrayList<Pixel> colors = new ArrayList<Pixel>();\n";
+code += "float tolerance = 50.0;\n";
+code += "int totalCount = 0;\n";
+code += "float proptolerance = 0.005;\n";
+code += "PImage[] images = new PImage[7];\n";
+code += "\n";
+code += "public class Pixel {\n";
+code += "  public color pixelcolor;\n";
+code += "  public int count;\n";
+code += "}\n";
+code += "\n";
+code += "float colorDist(color c1, color c2) {\n";
+code += "  float r = red(c1) - red(c2);\n";
+code += "  float g = green(c1) - green(c2);\n";
+code += "  float b = blue(c1) - blue(c2);\n";
+code += "\n";
+code += "  return sqrt(sq(r) + sq(g) + sq(b));\n";
+code += "}\n";
+code += "\n";
+code += "void addPixel(color currpix) {\n";
+code += "  Pixel p = new Pixel();\n";
+code += "  p.pixelcolor = currpix;\n";
+code += "  p.count = 1;\n";
+code += "  colors.add(p);\n";
+code += "  totalCount++;\n";
+code += "}\n";
+code += "\n";
+code += "boolean notBlackorWhite(color col) {\n";
+code += "  return ((col != 0.0) && (col != 255.0));\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+goToNext();
+code = "";
+pushMatrix();
+translate(200, 200 );
+textFont(codeFont, 40);
+code += "}\n";
+code += "\n";
+code += "void palettePage(int imgindex) {\n";
+code += "  //\n";
+code += "  totalCount = 0;\n";
+code += "  // colors is an ArrayList of pixel objects\n";
+code += "  // it is initialized as: ArrayList<Pixel> colors = new ArrayList<Pixel>();\n";
+code += "  for(int i = colors.size()-1; i >= 0 ; i--) {\n";
+code += "     colors.remove(i);\n";
+code += "  }\n";
+code += "\n";
+code += "  int iwidth = images[imgindex].width;\n";
+code += "  int iheight = images[imgindex].height;\n";
+code += "  images[imgindex].resize(0, (int)pgheight);\n";
+code += "  float palettepos = images[imgindex].width + 50;\n";
+code += "\n";
+code += "  for(int i = 0; i < iheight; i++) {\n";
+code += "    for(int j = 0; j < iwidth; j++) {\n";
+code += "      color currpix = images[imgindex].get(i,j);\n";
+code += "\n";
+code += "      if(notBlackorWhite(currpix)) {\n";
+code += "        if(colors.size() == 0) {\n";
+code += "          addPixel(currpix);\n";
+code += "        }\n";
+code += "\n";
+code += "        else {\n";
+code += "          int idx;\n";
+code += "          boolean foundMatch = false;\n";
+code += "          int prevIdx = 0;\n";
+code += "          float minDist = 1000000.0;\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+goToNext();
+code = "";
+pushMatrix();
+translate(200, 200 );
+textFont(codeFont, 40);
+code += "          for(idx = 0; idx < colors.size(); idx++) {\n";
+code += "            float currDist = colorDist(currpix, colors.get(idx).pixelcolor);\n";
+code += "            if(currDist < tolerance) {\n";
+code += "                  if(foundMatch && (currDist < minDist)) {\n";
+code += "                    colors.get(idx).count++;\n";
+code += "                    colors.get(prevIdx).count--;\n";
+code += "\n";
+code += "                    prevIdx = idx;\n";
+code += "                    minDist = currDist;\n";
+code += "                  }\n";
+code += "                  else if(!foundMatch && (currDist < minDist)) {\n";
+code += "                    colors.get(idx).count++;\n";
+code += "                    totalCount++;\n";
+code += "                    foundMatch = true;\n";
+code += "                    prevIdx = idx;\n";
+code += "                    minDist = currDist;\n";
+code += "                  }\n";
+code += "                }\n";
+code += "          }\n";
+code += "\n";
+code += "          if(!foundMatch) {\n";
+code += "            // couldn't find a matching color\n";
+code += "            addPixel(currpix);\n";
+code += "\n";
+code += "          }\n";
+code += "\n";
+code += "        }\n";
+code += "      }\n";
+code += "    }\n";
+code += "  }\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+goToNext();
+code = "";
+pushMatrix();
+translate(200, 200 );
+textFont(codeFont, 40);
+code += "\n";
+code += "  int netCount = totalCount;\n";
+code += "  for(int idx = 0; idx < colors.size(); idx++) {\n";
+code += "    float prop = colors.get(idx).count / ((float)totalCount);\n";
+code += "\n";
+code += "    if(prop < proptolerance) {\n";
+code += "      netCount -= colors.get(idx).count;\n";
+code += "    }\n";
+code += "  }\n";
+code += "  rectMode(CORNER);\n";
+code += "  float ypos = 0f;\n";
+code += "  color prevColor= colors.get(0).pixelcolor;\n";
+code += "\n";
+code += "  pushMatrix();\n";
+code += "  translate(margin + 700, margin);\n";
+code += "  image(images[imgindex], 0,0);\n";
+code += "\n";
+code += "  for(int idx = 0; idx < colors.size(); idx++) {\n";
+code += "    float prop = colors.get(idx).count / ((float)netCount);\n";
+code += "    if(prop >= proptolerance) {\n";
+code += "      float rheight = pgheight*prop;\n";
+code += "\n";
+code += "      stroke(colors.get(idx).pixelcolor);\n";
+code += "      fill(colors.get(idx).pixelcolor);\n";
+code += "\n";
+code += "      rect(palettepos, ypos, 300, rheight);\n";
+code += "      ypos += rheight;\n";
+code += "      prevColor = colors.get(idx).pixelcolor;\n";
+code += "    }\n";
+code += "  }\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+goToNext();
+code = "";
+pushMatrix();
+translate(200, 200 );
+textFont(codeFont, 40);
+code += "\n";
+code += "  popMatrix();\n";
+code += "\n";
+code += "}\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+
 }
 
 void titlePage() { 

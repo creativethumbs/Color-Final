@@ -1,45 +1,38 @@
-// recipe for simultaneous contrast  
-  
-  // prepare the first color
-  float r_col1 = random(3,95) + random(4,80) + random(3,73);
-  float g_col1 = random(3,90) + random(4,83) + random(3,75);
-  float b_col1 = random(3,93) + random(4,85) + random(3,70);
-  
-  color col1 = color(r_col1, g_col1, b_col1);
-  
-  // prepare the 'opposite' color to the first color
-  // season with a touch of randomness
-  color col2 = color(255 - r_col1 + random(-7,7), 
-                      255 - g_col1 + random(-7,7), 
-                      255 - b_col1 + random(-7,7));
-  
-  // mix the first two colors to create 
-  // the 'middle' color
-  // (optional) season with randomness
-  color mid = color((r_col1+red(col2))/2f + random(-15,15), 
-                    (g_col1+green(col2))/2f + random(-15,15),
-                    (b_col1+blue(col2))/2f + random(-15,15)) ;
-  
-  // pre-translate the transformation matrix
-  // to the size of your margins
-  pushMatrix();
-  translate(margin, margin);
+  colorMode(HSB,360,100,100); 
+  color col1 = color(random(0,360), random(90,100), random(80,100));
   
   rectMode(CORNER);
+  pushMatrix();
+  translate(margin, margin);
+  noStroke(); 
   
-  // arrange opposing colors beside each other
-  fill(col1);
-  stroke(col1);
-  rect(0,0,pgwidth/2f,pgheight);
-  fill(col2);
-  stroke(col2);
-  rect(pgwidth/2f,0,pgwidth/2f,pgheight);
+  color bg = color((hue(col1)+180)%360, random(90,100), random(80,100));
+  fill(bg);
+  rect(0, 0, pgwidth,pgheight);
   
-  // top with the middle color
-  rectMode(CENTER);
-  fill(mid);
-  noStroke();
-  rect((pgwidth*2f)/8f,pgheight/2f,pgwidth/5f,pgheight/2f);
-  rect((pgwidth*6f)/8f,pgheight/2f,pgwidth/5f,pgheight/2f);
+  for(int i = 0; i < 90; i++) {
+    float posX = random(0, pgwidth-200);
+    float posY = random(0, pgheight-200);  
+    
+    float rectw = random(100, min(1200, pgwidth-posX));
+    float recth = random(200, min(800, pgheight-posY));
+    
+    fill(col1, 50);
+    rect(posX, posY, rectw,recth);
+    
+  }
+  
+  for(int i = 0; i < 10; i++) {
+    float posX = random(0, pgwidth-200);
+    float posY = random(0, pgheight-200);  
+    
+    float rectw = random(100, min(1200, pgwidth-posX));
+    float recth = random(200, min(800, pgheight-posY));
+    
+    fill(bg,70);
+    rect(posX, posY, rectw,recth);
+    
+  }
   
   popMatrix();
+  colorMode(RGB);
