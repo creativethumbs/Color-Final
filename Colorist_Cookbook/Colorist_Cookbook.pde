@@ -886,8 +886,8 @@ float proptolerance = 0.005;
 PImage[] images = new PImage[6];
 
 public class Pixel {
-  public color pixelcolor; 
-  public int count;
+  public ArrayList pixelgroup;   
+  public int count; 
 }
 
 float colorDist(color c1, color c2) {
@@ -899,8 +899,10 @@ float colorDist(color c1, color c2) {
 }
 
 void addPixel(color currpix) {
-  Pixel p = new Pixel();
-  p.pixelcolor = currpix;
+  Pixel p = new Pixel(); 
+  // head of  the color group 
+  p.pixelgroup = new ArrayList();
+  p.pixelgroup.add(currpix);
   p.count = 1;
   colors.add(p);
   totalCount++;
@@ -942,7 +944,7 @@ void palettePage(int imgindex) {
           
           // look through existing colors in the palette
           for(idx = 0; idx < colors.size(); idx++) {
-            float currDist = colorDist(currpix, colors.get(idx).pixelcolor);
+            float currDist = colorDist(currpix, (Integer) colors.get(idx).pixelgroup.get(0));
             // if the color is in the palette
             if(currDist < tolerance) {
                   // increase the count for the palette color closest to 
@@ -950,12 +952,14 @@ void palettePage(int imgindex) {
                   if(foundMatch && (currDist < minDist)) {
                     colors.get(idx).count++;
                     colors.get(prevIdx).count--;
+                    colors.get(idx).pixelgroup.add(currpix);
                     
                     prevIdx = idx;
                     minDist = currDist;
                   }
                   else if(!foundMatch) {
                     colors.get(idx).count++;
+                    colors.get(idx).pixelgroup.add(currpix);
                     totalCount++;
                     foundMatch = true;
                     prevIdx = idx;
@@ -991,12 +995,25 @@ void palettePage(int imgindex) {
   image(images[imgindex], 0,0);
   
   // place palette beside image
-  for(int idx = 0; idx < colors.size(); idx++) { 
-    float prop = colors.get(idx).count / ((float)netCount);
+  for(int i = 0; i < colors.size(); i++) { 
+    float prop = colors.get(i).count / ((float)netCount);
+    
+    // if there is enough of the color in the image, display it
     if(prop >= proptolerance) {
       float rheight = pgheight*prop;
+      float totred = 0;
+      float totgreen = 0; 
+      float totblue = 0;  
       
-      color paletteColor = colors.get(idx).pixelcolor;
+      int groupsize = colors.get(i).pixelgroup.size();
+      for(int j = 0; j < groupsize; j++) {
+        Pixel thepixel = colors.get(i);
+        color currcolor = (Integer) thepixel.pixelgroup.get(j);
+        totred += red(currcolor);
+        totgreen += green(currcolor);
+        totblue += blue(currcolor);
+      } 
+      color paletteColor = color(totred/groupsize, totgreen/groupsize,totblue/groupsize);
       
       stroke(paletteColor);
       fill(paletteColor);
@@ -1025,12 +1042,7 @@ pushMatrix();
 translate(200, 200 );
 String code = "";
 fill(commentFill);
-text("// recipe for palette grabber", 0, 0, width*0.8, height*0.8);
-fill(0);
-code += "\n";
-code += "\n";
-fill(commentFill);
-text("// prepare initial ingredients", 0, 138, width*0.8, height*0.8);
+text("// prepare initial ingredients", 0, 0, width*0.8, height*0.8);
 fill(0);
 code += "\n";
 code += "ArrayList<Pixel> colors = new ArrayList<Pixel>();\n";
@@ -1040,7 +1052,7 @@ code += "float proptolerance = 0.005;\n";
 code += "PImage[] images = new PImage[6];\n";
 code += "\n";
 code += "public class Pixel {\n";
-code += "  public color pixelcolor;\n";
+code += "  public ArrayList pixelgroup;\n";
 code += "  public int count;\n";
 code += "}\n";
 code += "\n";
@@ -1054,7 +1066,12 @@ code += "}\n";
 code += "\n";
 code += "void addPixel(color currpix) {\n";
 code += "  Pixel p = new Pixel();\n";
-code += "  p.pixelcolor = currpix;\n";
+fill(commentFill);
+text("  // head of  the color group", 0, 1518, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+code += "  p.pixelgroup = new ArrayList();\n";
+code += "  p.pixelgroup.add(currpix);\n";
 code += "  p.count = 1;\n";
 code += "  colors.add(p);\n";
 code += "  totalCount++;\n";
@@ -1122,7 +1139,7 @@ text("          // look through existing colors in the palette", 0, 276, width*0
 fill(0);
 code += "\n";
 code += "          for(idx = 0; idx < colors.size(); idx++) {\n";
-code += "            float currDist = colorDist(currpix, colors.get(idx).pixelcolor);\n";
+code += "            float currDist = colorDist(currpix, (Integer) colors.get(idx).pixelgroup.get(0));\n";
 fill(commentFill);
 text("            // if the color is in the palette", 0, 483, width*0.8, height*0.8);
 fill(0);
@@ -1139,12 +1156,14 @@ code += "\n";
 code += "                  if(foundMatch && (currDist < minDist)) {\n";
 code += "                    colors.get(idx).count++;\n";
 code += "                    colors.get(prevIdx).count--;\n";
+code += "                    colors.get(idx).pixelgroup.add(currpix);\n";
 code += "\n";
 code += "                    prevIdx = idx;\n";
 code += "                    minDist = currDist;\n";
 code += "                  }\n";
 code += "                  else if(!foundMatch) {\n";
 code += "                    colors.get(idx).count++;\n";
+code += "                    colors.get(idx).pixelgroup.add(currpix);\n";
 code += "                    totalCount++;\n";
 code += "                    foundMatch = true;\n";
 code += "                    prevIdx = idx;\n";
@@ -1153,8 +1172,6 @@ code += "                  }\n";
 code += "                }\n";
 code += "          }\n";
 code += "\n";
-code += "          if(!foundMatch) {\n";
-code += "            addPixel(currpix);\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
@@ -1162,6 +1179,8 @@ code = "";
 pushMatrix();
 translate(200, 200 );
 textFont(mainFont, 60);
+code += "          if(!foundMatch) {\n";
+code += "            addPixel(currpix);\n";
 code += "\n";
 code += "          }\n";
 code += "\n";
@@ -1183,20 +1202,18 @@ code += "  float ypos = 0f;\n";
 code += "\n";
 code += "  pushMatrix();\n";
 fill(commentFill);
-text("  // place image a little to the right of your margins", 0, 1380, width*0.8, height*0.8);
+text("  // place image a little to the right of your margins", 0, 1518, width*0.8, height*0.8);
 fill(0);
 code += "\n";
 code += "  translate(margin + 700, margin);\n";
 code += "  image(images[imgindex], 0,0);\n";
 code += "\n";
 fill(commentFill);
-text("  // place palette beside image", 0, 1656, width*0.8, height*0.8);
+text("  // place palette beside image", 0, 1794, width*0.8, height*0.8);
 fill(0);
 code += "\n";
-code += "  for(int idx = 0; idx < colors.size(); idx++) {\n";
-code += "    float prop = colors.get(idx).count / ((float)netCount);\n";
-code += "    if(prop >= proptolerance) {\n";
-code += "      float rheight = pgheight*prop;\n";
+code += "  for(int i = 0; i < colors.size(); i++) {\n";
+code += "    float prop = colors.get(i).count / ((float)netCount);\n";
 code += "\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
@@ -1205,14 +1222,32 @@ code = "";
 pushMatrix();
 translate(200, 200 );
 textFont(mainFont, 60);
-code += "      color paletteColor = colors.get(idx).pixelcolor;\n";
+fill(commentFill);
+text("    // if there is enough of the color in the image, display it", 0, 0, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+code += "    if(prop >= proptolerance) {\n";
+code += "      float rheight = pgheight*prop;\n";
+code += "      float totred = 0;\n";
+code += "      float totgreen = 0;\n";
+code += "      float totblue = 0;\n";
+code += "\n";
+code += "      int groupsize = colors.get(i).pixelgroup.size();\n";
+code += "      for(int j = 0; j < groupsize; j++) {\n";
+code += "        Pixel thepixel = colors.get(i);\n";
+code += "        color currcolor = (Integer) thepixel.pixelgroup.get(j);\n";
+code += "        totred += red(currcolor);\n";
+code += "        totgreen += green(currcolor);\n";
+code += "        totblue += blue(currcolor);\n";
+code += "      }\n";
+code += "      color paletteColor = color(totred/groupsize, totgreen/groupsize,totblue/groupsize);\n";
 code += "\n";
 code += "      stroke(paletteColor);\n";
 code += "      fill(paletteColor);\n";
 code += "      rect(palettepos, ypos, 300, rheight);\n";
 code += "\n";
 fill(commentFill);
-text("      // top it off with the hex value for the colors", 0, 414, width*0.8, height*0.8);
+text("      // top it off with the hex value for the colors", 0, 1449, width*0.8, height*0.8);
 fill(0);
 code += "\n";
 code += "      textFont(mainFont, 40);\n";
@@ -1223,6 +1258,13 @@ code += "      ypos += rheight;\n";
 code += "\n";
 code += "    }\n";
 code += "  }\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+goToNext();
+code = "";
+pushMatrix();
+translate(200, 200 );
+textFont(mainFont, 60);
 code += "\n";
 code += "  popMatrix();\n";
 code += "\n";
