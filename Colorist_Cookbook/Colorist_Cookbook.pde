@@ -7,15 +7,9 @@ int pgnum = 1;
 float pgwidth;
 float pgheight;
 int margin = 200;
+int commentFill;
 
 PShape blob;
-
-// for the palette
-ArrayList<Pixel> colors = new ArrayList<Pixel>();
-float tolerance = 50.0;
-int totalCount = 0; 
-float proptolerance = 0.005;
-PImage[] images = new PImage[7];
 
 void setup() {
   size(3508, 2480, PDF, "The Colorist Cookbook.pdf");
@@ -108,9 +102,9 @@ void goToNext() {
     
     // odd numbered on left
     if(pgnum%2 == 1) 
-      text(pgnum, width*0.05, height*0.95);
+      text(pgnum, width*0.05, height*0.97);
     else
-       text(pgnum, width*0.95, height*0.95);
+       text(pgnum, width*0.95, height*0.97);
     
   }
   PGraphicsPDF pdf = (PGraphicsPDF) g;
@@ -130,7 +124,7 @@ void simContrastPage1() {
   
   color col1 = color(r_col1, g_col1, b_col1);
   
-  // prepare the 'opposite' color to the first color
+  // prepare the color opposite to the first color
   // season with a touch of randomness
   color col2 = color(255 - r_col1 + random(-7,7), 
                       255 - g_col1 + random(-7,7), 
@@ -166,52 +160,90 @@ void simContrastPage1() {
   triangle(pgwidth*0.9,pgheight/2f,pgwidth*0.6,pgheight/4f, pgwidth*0.6,pgheight*0.75);
   
   popMatrix();
+  
+  textFont(mainFont, 60);
+  fill(col1);
+  text("0x"+hex(col1), width*0.05, height*0.05);
+  fill(col2);
+  text("0x"+hex(col2), width*0.05 + 300, height*0.05);
+  fill(mid);
+  text("0x"+hex(mid), width*0.05 + 600, height*0.05);
 }
 void simContrastPage1_print() {
 fill(0);
 textAlign(LEFT);
 rectMode(CORNER);
-textFont(codeFont, 40);
+textFont(mainFont, 60);
 pushMatrix();
 translate(200, 200 );
 String code = "";
-code += "// recipe for simple simultaneous contrast\n";
+fill(commentFill);
+text("  // recipe for simple simultaneous contrast", 0, 0, width*0.8, height*0.8);
+fill(0);
 code += "\n";
-code += "  // prepare the first color\n";
+code += "\n";
+fill(commentFill);
+text("  // prepare the first color", 0, 138, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  float r_col1 = random(2,84) + random(2,84) + random(2,84);\n";
 code += "  float g_col1 = random(2,84) + random(2,84) + random(2,84);\n";
 code += "  float b_col1 = random(2,84) + random(2,84) + random(2,84);\n";
 code += "\n";
 code += "  color col1 = color(r_col1, g_col1, b_col1);\n";
 code += "\n";
-code += "  // prepare the 'opposite' color to the first color\n";
-code += "  // season with a touch of randomness\n";
+fill(commentFill);
+text("  // prepare the color opposite to the first color", 0, 621, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // season with a touch of randomness", 0, 690, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  color col2 = color(255 - r_col1 + random(-7,7),\n";
 code += "                      255 - g_col1 + random(-7,7),\n";
 code += "                      255 - b_col1 + random(-7,7));\n";
 code += "\n";
-code += "  // evenly mix the first two colors to create\n";
-code += "  // the 'middle' color\n";
-code += "  // (recommended) season with randomness\n";
+fill(commentFill);
+text("  // evenly mix the first two colors to create", 0, 1035, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // the 'middle' color", 0, 1104, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // (recommended) season with randomness", 0, 1173, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  color mid = color((r_col1+red(col2))/2f + random(-15,15),\n";
 code += "                    (g_col1+green(col2))/2f + random(-15,15),\n";
 code += "                    (b_col1+blue(col2))/2f + random(-15,15)) ;\n";
 code += "\n";
-code += "  // pre-translate the transformation matrix\n";
-code += "  // to the size of your margins\n";
+fill(commentFill);
+text("  // pre-translate the transformation matrix", 0, 1518, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // to the size of your margins", 0, 1587, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  pushMatrix();\n";
 code += "  translate(margin, margin);\n";
 code += "\n";
 code += "  rectMode(CORNER);\n";
 code += "\n";
-code += "  // arrange opposing colors beside each other\n";
+fill(commentFill);
+text("  // arrange opposing colors beside each other", 0, 2001, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
 code = "";
 pushMatrix();
 translate(200, 200 );
-textFont(codeFont, 40);
+textFont(mainFont, 60);
 code += "  fill(col1);\n";
 code += "  stroke(col1);\n";
 code += "  rect(0,0,pgwidth/2f,pgheight);\n";
@@ -219,7 +251,10 @@ code += "  fill(col2);\n";
 code += "  stroke(col2);\n";
 code += "  rect(pgwidth/2f,0,pgwidth/2f,pgheight);\n";
 code += "\n";
-code += "  // top with the middle color\n";
+fill(commentFill);
+text("  // top with the middle color", 0, 483, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  fill(mid);\n";
 code += "  noStroke();\n";
 code += "\n";
@@ -279,6 +314,7 @@ void simContrastPage2() {
   rect((pgwidth*3f)/4f,pgheight/2f,pgwidth/5f,pgheight/2f);
   
   // slice holes in the middle for a more dramatic effect
+  // waffle aesthetic
   rectMode(CORNER);
   fill(col1);
   for(int rows = 0; rows < 6; rows++) {
@@ -291,7 +327,7 @@ void simContrastPage2() {
   float rand3 = random(-350,350);
   float rand4 = random(-250,250);
   pushMatrix();
-  //translate(rand3, rand4);
+  
   for(int rows = 0; rows < 6; rows++) {
     for(int cols = 0; cols < 4; cols++) {
       rect(pgwidth * 0.668 + 140*cols, pgheight * 0.3 + 140*rows,100,100);
@@ -300,52 +336,90 @@ void simContrastPage2() {
   popMatrix();
   
   popMatrix();
+  
+  textFont(mainFont, 60);
+  fill(col1);
+  text("0x"+hex(col1), width*0.05, height*0.05);
+  fill(col2);
+  text("0x"+hex(col2), width*0.05 + 300, height*0.05);
+  fill(mid);
+  text("0x"+hex(mid), width*0.05 + 600, height*0.05);
 }
 void simContrastPage2_print() {
 fill(0);
 textAlign(LEFT);
 rectMode(CORNER);
-textFont(codeFont, 40);
+textFont(mainFont, 60);
 pushMatrix();
 translate(200, 200 );
 String code = "";
-code += "// recipe for holed simultaneous contrast\n";
+fill(commentFill);
+text("  // recipe for holed simultaneous contrast", 0, 0, width*0.8, height*0.8);
+fill(0);
 code += "\n";
-code += "  // prepare the first color\n";
+code += "\n";
+fill(commentFill);
+text("  // prepare the first color", 0, 138, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  float r_col1 = random(2,84) + random(2,84) + random(2,84);\n";
 code += "  float g_col1 = random(2,84) + random(2,84) + random(2,84);\n";
 code += "  float b_col1 = random(2,84) + random(2,84) + random(2,84);\n";
 code += "\n";
 code += "  color col1 = color(r_col1, g_col1, b_col1);\n";
 code += "\n";
-code += "  // prepare the 'opposite' color to the first color\n";
-code += "  // season with a touch of randomness\n";
+fill(commentFill);
+text("  // prepare the 'opposite' color to the first color", 0, 621, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // season with a touch of randomness", 0, 690, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  color col2 = color(255 - r_col1 + random(-7,7),\n";
 code += "                      255 - g_col1 + random(-7,7),\n";
 code += "                      255 - b_col1 + random(-7,7));\n";
 code += "\n";
-code += "  // evenly mix the first two colors to create\n";
-code += "  // the 'middle' color\n";
-code += "  // (recommended) season with randomness\n";
+fill(commentFill);
+text("  // evenly mix the first two colors to create", 0, 1035, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // the 'middle' color", 0, 1104, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // (recommended) season with randomness", 0, 1173, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  color mid = color((r_col1+red(col2))/2f + random(-15,15),\n";
 code += "                    (g_col1+green(col2))/2f + random(-15,15),\n";
 code += "                    (b_col1+blue(col2))/2f + random(-15,15)) ;\n";
 code += "\n";
-code += "  // pre-translate the transformation matrix\n";
-code += "  // to the size of your margins\n";
+fill(commentFill);
+text("  // pre-translate the transformation matrix", 0, 1518, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // to the size of your margins", 0, 1587, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  pushMatrix();\n";
 code += "  translate(margin, margin);\n";
 code += "\n";
 code += "  rectMode(CORNER);\n";
 code += "\n";
-code += "  // arrange opposing colors beside each other\n";
+fill(commentFill);
+text("  // arrange opposing colors beside each other", 0, 2001, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
 code = "";
 pushMatrix();
 translate(200, 200 );
-textFont(codeFont, 40);
+textFont(mainFont, 60);
 code += "  fill(col1);\n";
 code += "  stroke(col1);\n";
 code += "  rect(0,0,pgwidth/2f,pgheight);\n";
@@ -353,14 +427,24 @@ code += "  fill(col2);\n";
 code += "  stroke(col2);\n";
 code += "  rect(pgwidth/2f,0,pgwidth/2f,pgheight);\n";
 code += "\n";
-code += "  // top with the middle color\n";
+fill(commentFill);
+text("  // top with the middle color", 0, 483, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  rectMode(CENTER);\n";
 code += "  fill(mid);\n";
 code += "  noStroke();\n";
 code += "  rect((pgwidth)/4f,pgheight/2f,pgwidth/5f,pgheight/2f);\n";
 code += "  rect((pgwidth*3f)/4f,pgheight/2f,pgwidth/5f,pgheight/2f);\n";
 code += "\n";
-code += "  // slice holes in the middle for a more dramatic effect\n";
+fill(commentFill);
+text("  // slice holes in the middle for a more dramatic effect", 0, 966, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // waffle aesthetic", 0, 1035, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  rectMode(CORNER);\n";
 code += "  fill(col1);\n";
 code += "  for(int rows = 0; rows < 6; rows++) {\n";
@@ -373,22 +457,22 @@ code += "  fill(col2);\n";
 code += "  float rand3 = random(-350,350);\n";
 code += "  float rand4 = random(-250,250);\n";
 code += "  pushMatrix();\n";
-code += "  //translate(rand3, rand4);\n";
+code += "\n";
 code += "  for(int rows = 0; rows < 6; rows++) {\n";
-code += "    for(int cols = 0; cols < 4; cols++) {\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
 code = "";
 pushMatrix();
 translate(200, 200 );
-textFont(codeFont, 40);
+textFont(mainFont, 60);
+code += "    for(int cols = 0; cols < 4; cols++) {\n";
 code += "      rect(pgwidth * 0.668 + 140*cols, pgheight * 0.3 + 140*rows,100,100);\n";
 code += "    }\n";
 code += "  }\n";
 code += "  popMatrix();\n";
 code += "\n";
-code += "  popMatrix();\n";
+code += "  popMatrix();\n"; 
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 
@@ -434,6 +518,7 @@ void simContrastPage3() {
   stroke(col2);
   rect(pgwidth/2f,0,pgwidth/2f,pgheight);
   
+  // arrange squares in a Georg Nees fashion  
   rectMode(CORNER);
   fill(mid);
   stroke(col1); 
@@ -441,6 +526,7 @@ void simContrastPage3() {
     for(int cols = 0; cols < 15; cols++) {
       pushMatrix();
       translate(pgwidth * 0.1 + 60*cols, pgheight * 0.2 + 60*rows);
+      // let squares scatter more near the bottom
       float rotamnt = random(-rows*0.05,rows*0.05);
       rotate(rotamnt);
       rect(0,0,60,60);
@@ -448,6 +534,7 @@ void simContrastPage3() {
       
     }
   }   
+  // repeat previous step
   rectMode(CORNER);
   fill(mid);
   stroke(col2); 
@@ -463,60 +550,101 @@ void simContrastPage3() {
     }
   }  
   
-  
   popMatrix();
+  
+  textFont(mainFont, 60);
+  fill(col1);
+  text("0x"+hex(col1), width*0.05, height*0.05);
+  fill(col2);
+  text("0x"+hex(col2), width*0.05 + 300, height*0.05);
+  fill(mid);
+  text("0x"+hex(mid), width*0.05 + 600, height*0.05);
 }
 void simContrastPage3_print() {
 fill(0);
 textAlign(LEFT);
 rectMode(CORNER);
-textFont(codeFont, 40);
+textFont(mainFont, 60);
 pushMatrix();
 translate(200, 200 );
 String code = "";
-code += "// recipe for schotter simultaneous contrast\n";
+fill(commentFill);
+text("  // recipe for schotter simultaneous contrast", 0, 0, width*0.8, height*0.8);
+fill(0);
 code += "\n";
-code += "  // prepare the first color\n";
+code += "\n";
+fill(commentFill);
+text("  // prepare the first color", 0, 138, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  float r_col1 = random(2,84) + random(2,84) + random(2,84);\n";
 code += "  float g_col1 = random(2,84) + random(2,84) + random(2,84);\n";
 code += "  float b_col1 = random(2,84) + random(2,84) + random(2,84);\n";
 code += "\n";
 code += "  color col1 = color(r_col1, g_col1, b_col1);\n";
 code += "\n";
-code += "  // prepare the 'opposite' color to the first color\n";
-code += "  // season with a touch of randomness\n";
+fill(commentFill);
+text("  // prepare the 'opposite' color to the first color", 0, 621, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // season with a touch of randomness", 0, 690, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  color col2 = color(255 - r_col1 + random(-7,7),\n";
 code += "                      255 - g_col1 + random(-7,7),\n";
 code += "                      255 - b_col1 + random(-7,7));\n";
 code += "\n";
-code += "  // evenly mix the first two colors to create\n";
-code += "  // the 'middle' color\n";
-code += "  // (recommended) season with randomness\n";
+fill(commentFill);
+text("  // evenly mix the first two colors to create", 0, 1035, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // the 'middle' color", 0, 1104, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // (recommended) season with randomness", 0, 1173, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  color mid = color((r_col1+red(col2))/2f + random(-20,20),\n";
 code += "                    (g_col1+green(col2))/2f + random(-20,20),\n";
 code += "                    (b_col1+blue(col2))/2f + random(-15,15)) ;\n";
 code += "\n";
-code += "  // pre-translate the transformation matrix\n";
-code += "  // to the size of your margins\n";
+fill(commentFill);
+text("  // pre-translate the transformation matrix", 0, 1518, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // to the size of your margins", 0, 1587, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  pushMatrix();\n";
 code += "  translate(margin, margin);\n";
 code += "\n";
 code += "  rectMode(CORNER);\n";
 code += "\n";
-code += "  // arrange opposing colors beside each other\n";
+fill(commentFill);
+text("  // arrange opposing colors beside each other", 0, 2001, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
 code = "";
 pushMatrix();
 translate(200, 200 );
-textFont(codeFont, 40);
+textFont(mainFont, 60);
 code += "  fill(col1);\n";
 code += "  stroke(col1);\n";
 code += "  rect(0,0,pgwidth/2f,pgheight);\n";
 code += "  fill(col2);\n";
 code += "  stroke(col2);\n";
 code += "  rect(pgwidth/2f,0,pgwidth/2f,pgheight);\n";
+code += "\n";
+fill(commentFill);
+text("  // arrange squares in a Georg Nees fashion", 0, 483, width*0.8, height*0.8);
+fill(0);
 code += "\n";
 code += "  rectMode(CORNER);\n";
 code += "  fill(mid);\n";
@@ -525,6 +653,10 @@ code += "  for(int rows = 0; rows < 25; rows++) {\n";
 code += "    for(int cols = 0; cols < 15; cols++) {\n";
 code += "      pushMatrix();\n";
 code += "      translate(pgwidth * 0.1 + 60*cols, pgheight * 0.2 + 60*rows);\n";
+fill(commentFill);
+text("      // let squares scatter more near the bottom", 0, 1035, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "      float rotamnt = random(-rows*0.05,rows*0.05);\n";
 code += "      rotate(rotamnt);\n";
 code += "      rect(0,0,60,60);\n";
@@ -532,38 +664,45 @@ code += "      popMatrix();\n";
 code += "\n";
 code += "    }\n";
 code += "  }\n";
+fill(commentFill);
+text("  // repeat previous step", 0, 1587, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  rectMode(CORNER);\n";
 code += "  fill(mid);\n";
 code += "  stroke(col2);\n";
 code += "  for(int rows = 0; rows < 25; rows++) {\n";
 code += "    for(int cols = 0; cols < 15; cols++) {\n";
 code += "      pushMatrix();\n";
-code += "      translate(pgwidth * 0.6 + 60*cols, pgheight * 0.2 + 60*rows);\n";
-code += "      float rotamnt = random(-rows*0.05,rows*0.05);\n";
-code += "      rotate(rotamnt);\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
 code = "";
 pushMatrix();
 translate(200, 200 );
-textFont(codeFont, 40);
+textFont(mainFont, 60);
+code += "      translate(pgwidth * 0.6 + 60*cols, pgheight * 0.2 + 60*rows);\n";
+code += "      float rotamnt = random(-rows*0.05,rows*0.05);\n";
+code += "      rotate(rotamnt);\n";
 code += "      rect(0,0,60,60);\n";
 code += "      popMatrix();\n";
 code += "\n";
 code += "    }\n";
 code += "  }\n";
 code += "\n";
-code += "\n";
 code += "  popMatrix();\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
+
 
 }
 
 // painterly study 
 void simContrastPage4() {
+  // recipe for using bridging colors
   
+  // switch working color mode to HSB
+  // before preparing the foreground color
   colorMode(HSB,360,100,100); 
   color col1 = color(random(0,360), random(90,100), random(80,100));
   
@@ -572,10 +711,13 @@ void simContrastPage4() {
   translate(margin, margin);
   noStroke(); 
   
+  // glaze with the background color, which is opposite from the foreground color
+  // add a touch of randomness
   color bg = color((hue(col1)+180)%360, random(90,100), random(80,100));
   fill(bg);
   rect(0, 0, pgwidth,pgheight);
   
+  // randomly add 90 slices of the foreground color 
   for(int i = 0; i < 90; i++) {
     float posX = random(0, pgwidth-200);
     float posY = random(0, pgheight-200);  
@@ -583,11 +725,15 @@ void simContrastPage4() {
     float rectw = random(100, min(1200, pgwidth-posX));
     float recth = random(200, min(800, pgheight-posY));
     
+    // the slices can overlap with each other, 
+    // but they must be thin
+    // like prosciutto
     fill(col1, 50);
     rect(posX, posY, rectw,recth);
     
   }
   
+  // for balance, top with a few thin slices of the background color 
   for(int i = 0; i < 10; i++) {
     float posX = random(0, pgwidth-200);
     float posY = random(0, pgheight-200);  
@@ -602,16 +748,35 @@ void simContrastPage4() {
   
   popMatrix();
   colorMode(RGB);
+  
+  textFont(mainFont, 60);
+  fill(col1);
+  text("0x"+hex(col1), width*0.05, height*0.05);
+  fill(bg);
+  text("0x"+hex(bg), width*0.05 + 300, height*0.05); 
 }
 
 void simContrastPage4_print() {
-  fill(0);
+fill(0);
 textAlign(LEFT);
 rectMode(CORNER);
-textFont(codeFont, 40);
+textFont(mainFont, 60);
 pushMatrix();
 translate(200, 200 );
 String code = "";
+fill(commentFill);
+text("  // recipe for using bridging colors", 0, 0, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+code += "\n";
+fill(commentFill);
+text("  // switch working color mode to HSB", 0, 138, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // before preparing the foreground color", 0, 207, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  colorMode(HSB,360,100,100);\n";
 code += "  color col1 = color(random(0,360), random(90,100), random(80,100));\n";
 code += "\n";
@@ -620,9 +785,21 @@ code += "  pushMatrix();\n";
 code += "  translate(margin, margin);\n";
 code += "  noStroke();\n";
 code += "\n";
+fill(commentFill);
+text("  // glaze with the background color, which is opposite from the foreground color", 0, 828, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // add a touch of randomness", 0, 897, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  color bg = color((hue(col1)+180)%360, random(90,100), random(80,100));\n";
 code += "  fill(bg);\n";
 code += "  rect(0, 0, pgwidth,pgheight);\n";
+code += "\n";
+fill(commentFill);
+text("  // randomly add 90 slices of the foreground color", 0, 1242, width*0.8, height*0.8);
+fill(0);
 code += "\n";
 code += "  for(int i = 0; i < 90; i++) {\n";
 code += "    float posX = random(0, pgwidth-200);\n";
@@ -631,10 +808,33 @@ code += "\n";
 code += "    float rectw = random(100, min(1200, pgwidth-posX));\n";
 code += "    float recth = random(200, min(800, pgheight-posY));\n";
 code += "\n";
+fill(commentFill);
+text("    // the slices can overlap with each other,", 0, 1794, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("    // but they must be thin", 0, 1863, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("    // like prosciutto", 0, 1932, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "    fill(col1, 50);\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+goToNext();
+code = "";
+pushMatrix();
+translate(200, 200 );
+textFont(mainFont, 60);
 code += "    rect(posX, posY, rectw,recth);\n";
 code += "\n";
 code += "  }\n";
+code += "\n";
+fill(commentFill);
+text("  // for balance, top with a few thin slices of the background color", 0, 276, width*0.8, height*0.8);
+fill(0);
 code += "\n";
 code += "  for(int i = 0; i < 10; i++) {\n";
 code += "    float posX = random(0, pgwidth-200);\n";
@@ -642,13 +842,6 @@ code += "    float posY = random(0, pgheight-200);\n";
 code += "\n";
 code += "    float rectw = random(100, min(1200, pgwidth-posX));\n";
 code += "    float recth = random(200, min(800, pgheight-posY));\n";
-text(code, 0, 0, width*0.8, height*0.8);
-popMatrix();
-goToNext();
-code = "";
-pushMatrix();
-translate(200, 200 );
-textFont(codeFont, 40);
 code += "\n";
 code += "    fill(bg,70);\n";
 code += "    rect(posX, posY, rectw,recth);\n";
@@ -656,9 +849,9 @@ code += "\n";
 code += "  }\n";
 code += "\n";
 code += "  popMatrix();\n";
-code += "  colorMode(RGB);\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
+
 
 }
 
@@ -682,6 +875,15 @@ void monochromePage() {
   popMatrix();
   
 }
+
+// recipe for palette grabber
+
+// prepare initial ingredients 
+ArrayList<Pixel> colors = new ArrayList<Pixel>();
+float tolerance = 50.0;
+int totalCount = 0; 
+float proptolerance = 0.005;
+PImage[] images = new PImage[6];
 
 public class Pixel {
   public color pixelcolor; 
@@ -708,11 +910,10 @@ boolean notBlackorWhite(color col) {
   return ((col != 0.0) && (col != 255.0)); 
 }
 
-void palettePage(int imgindex) {
-  //
+void palettePage(int imgindex) { 
   totalCount = 0;
-  // colors is an ArrayList of pixel objects
-  // it is initialized as: ArrayList<Pixel> colors = new ArrayList<Pixel>();
+  
+  // rinse palette before use
   for(int i = colors.size()-1; i >= 0 ; i--) {
      colors.remove(i);
   } 
@@ -722,6 +923,8 @@ void palettePage(int imgindex) {
   images[imgindex].resize(0, (int)pgheight);
   float palettepos = images[imgindex].width + 50;
   
+  // extract colors from image
+  // and add them to the palette
   for(int i = 0; i < iheight; i++) {
     for(int j = 0; j < iwidth; j++) {
       color currpix = images[imgindex].get(i,j);
@@ -735,10 +938,15 @@ void palettePage(int imgindex) {
           int idx;
           boolean foundMatch = false;
           int prevIdx = 0;
-          float minDist = 1000000.0;
+          float minDist = 0.0;
+          
+          // look through existing colors in the palette
           for(idx = 0; idx < colors.size(); idx++) {
             float currDist = colorDist(currpix, colors.get(idx).pixelcolor);
+            // if the color is in the palette
             if(currDist < tolerance) {
+                  // increase the count for the palette color closest to 
+                  // the current pixel 
                   if(foundMatch && (currDist < minDist)) {
                     colors.get(idx).count++;
                     colors.get(prevIdx).count--;
@@ -746,18 +954,17 @@ void palettePage(int imgindex) {
                     prevIdx = idx;
                     minDist = currDist;
                   }
-                  else if(!foundMatch && (currDist < minDist)) {
+                  else if(!foundMatch) {
                     colors.get(idx).count++;
                     totalCount++;
                     foundMatch = true;
                     prevIdx = idx;
                     minDist = currDist;
-                  }
+                  } 
                 }
           }
           
-          if(!foundMatch) {
-            // couldn't find a matching color
+          if(!foundMatch) { 
             addPixel(currpix);
             
           }
@@ -776,24 +983,32 @@ void palettePage(int imgindex) {
     }
   } 
   rectMode(CORNER);
-  float ypos = 0f;
-  color prevColor= colors.get(0).pixelcolor;
+  float ypos = 0f; 
   
   pushMatrix();
+  // place image a little to the right of your margins
   translate(margin + 700, margin);
   image(images[imgindex], 0,0);
   
+  // place palette beside image
   for(int idx = 0; idx < colors.size(); idx++) { 
     float prop = colors.get(idx).count / ((float)netCount);
     if(prop >= proptolerance) {
       float rheight = pgheight*prop;
       
-      stroke(colors.get(idx).pixelcolor);
-      fill(colors.get(idx).pixelcolor);
-    
+      color paletteColor = colors.get(idx).pixelcolor;
+      
+      stroke(paletteColor);
+      fill(paletteColor);
       rect(palettepos, ypos, 300, rheight);
-      ypos += rheight;
-      prevColor = colors.get(idx).pixelcolor;
+      
+      // top it off with the hex value for the colors
+      textFont(mainFont, 40);
+      fill(paletteColor);
+      text("0x"+hex(paletteColor), palettepos + 350, ypos+30);
+      
+      ypos += rheight; 
+      
     }
   }
   
@@ -802,19 +1017,27 @@ void palettePage(int imgindex) {
 }
 
 void palettePage_print() {
-  fill(0);
+fill(0);
 textAlign(LEFT);
 rectMode(CORNER);
-textFont(codeFont, 40);
+textFont(mainFont, 60);
 pushMatrix();
 translate(200, 200 );
 String code = "";
-code += "// for the palette\n";
+fill(commentFill);
+text("// recipe for palette grabber", 0, 0, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+code += "\n";
+fill(commentFill);
+text("// prepare initial ingredients", 0, 138, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "ArrayList<Pixel> colors = new ArrayList<Pixel>();\n";
 code += "float tolerance = 50.0;\n";
 code += "int totalCount = 0;\n";
 code += "float proptolerance = 0.005;\n";
-code += "PImage[] images = new PImage[7];\n";
+code += "PImage[] images = new PImage[6];\n";
 code += "\n";
 code += "public class Pixel {\n";
 code += "  public color pixelcolor;\n";
@@ -837,22 +1060,24 @@ code += "  colors.add(p);\n";
 code += "  totalCount++;\n";
 code += "}\n";
 code += "\n";
-code += "boolean notBlackorWhite(color col) {\n";
-code += "  return ((col != 0.0) && (col != 255.0));\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
 code = "";
 pushMatrix();
 translate(200, 200 );
-textFont(codeFont, 40);
+textFont(mainFont, 60);
+code += "boolean notBlackorWhite(color col) {\n";
+code += "  return ((col != 0.0) && (col != 255.0));\n";
 code += "}\n";
 code += "\n";
 code += "void palettePage(int imgindex) {\n";
-code += "  //\n";
 code += "  totalCount = 0;\n";
-code += "  // colors is an ArrayList of pixel objects\n";
-code += "  // it is initialized as: ArrayList<Pixel> colors = new ArrayList<Pixel>();\n";
+code += "\n";
+fill(commentFill);
+text("  // rinse palette before use", 0, 483, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  for(int i = colors.size()-1; i >= 0 ; i--) {\n";
 code += "     colors.remove(i);\n";
 code += "  }\n";
@@ -861,6 +1086,14 @@ code += "  int iwidth = images[imgindex].width;\n";
 code += "  int iheight = images[imgindex].height;\n";
 code += "  images[imgindex].resize(0, (int)pgheight);\n";
 code += "  float palettepos = images[imgindex].width + 50;\n";
+code += "\n";
+fill(commentFill);
+text("  // extract colors from image", 0, 1173, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("  // and add them to the palette", 0, 1242, width*0.8, height*0.8);
+fill(0);
 code += "\n";
 code += "  for(int i = 0; i < iheight; i++) {\n";
 code += "    for(int j = 0; j < iwidth; j++) {\n";
@@ -873,19 +1106,36 @@ code += "        }\n";
 code += "\n";
 code += "        else {\n";
 code += "          int idx;\n";
-code += "          boolean foundMatch = false;\n";
-code += "          int prevIdx = 0;\n";
-code += "          float minDist = 1000000.0;\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
 code = "";
 pushMatrix();
 translate(200, 200 );
-textFont(codeFont, 40);
+textFont(mainFont, 60);
+code += "          boolean foundMatch = false;\n";
+code += "          int prevIdx = 0;\n";
+code += "          float minDist = 0.0;\n";
+code += "\n";
+fill(commentFill);
+text("          // look through existing colors in the palette", 0, 276, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "          for(idx = 0; idx < colors.size(); idx++) {\n";
 code += "            float currDist = colorDist(currpix, colors.get(idx).pixelcolor);\n";
+fill(commentFill);
+text("            // if the color is in the palette", 0, 483, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "            if(currDist < tolerance) {\n";
+fill(commentFill);
+text("                  // increase the count for the palette color closest to", 0, 621, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+fill(commentFill);
+text("                  // the current pixel", 0, 690, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "                  if(foundMatch && (currDist < minDist)) {\n";
 code += "                    colors.get(idx).count++;\n";
 code += "                    colors.get(prevIdx).count--;\n";
@@ -893,7 +1143,7 @@ code += "\n";
 code += "                    prevIdx = idx;\n";
 code += "                    minDist = currDist;\n";
 code += "                  }\n";
-code += "                  else if(!foundMatch && (currDist < minDist)) {\n";
+code += "                  else if(!foundMatch) {\n";
 code += "                    colors.get(idx).count++;\n";
 code += "                    totalCount++;\n";
 code += "                    foundMatch = true;\n";
@@ -904,8 +1154,14 @@ code += "                }\n";
 code += "          }\n";
 code += "\n";
 code += "          if(!foundMatch) {\n";
-code += "            // couldn't find a matching color\n";
 code += "            addPixel(currpix);\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+goToNext();
+code = "";
+pushMatrix();
+translate(200, 200 );
+textFont(mainFont, 60);
 code += "\n";
 code += "          }\n";
 code += "\n";
@@ -913,13 +1169,6 @@ code += "        }\n";
 code += "      }\n";
 code += "    }\n";
 code += "  }\n";
-text(code, 0, 0, width*0.8, height*0.8);
-popMatrix();
-goToNext();
-code = "";
-pushMatrix();
-translate(200, 200 );
-textFont(codeFont, 40);
 code += "\n";
 code += "  int netCount = totalCount;\n";
 code += "  for(int idx = 0; idx < colors.size(); idx++) {\n";
@@ -931,38 +1180,56 @@ code += "    }\n";
 code += "  }\n";
 code += "  rectMode(CORNER);\n";
 code += "  float ypos = 0f;\n";
-code += "  color prevColor= colors.get(0).pixelcolor;\n";
 code += "\n";
 code += "  pushMatrix();\n";
+fill(commentFill);
+text("  // place image a little to the right of your margins", 0, 1380, width*0.8, height*0.8);
+fill(0);
+code += "\n";
 code += "  translate(margin + 700, margin);\n";
 code += "  image(images[imgindex], 0,0);\n";
+code += "\n";
+fill(commentFill);
+text("  // place palette beside image", 0, 1656, width*0.8, height*0.8);
+fill(0);
 code += "\n";
 code += "  for(int idx = 0; idx < colors.size(); idx++) {\n";
 code += "    float prop = colors.get(idx).count / ((float)netCount);\n";
 code += "    if(prop >= proptolerance) {\n";
 code += "      float rheight = pgheight*prop;\n";
 code += "\n";
-code += "      stroke(colors.get(idx).pixelcolor);\n";
-code += "      fill(colors.get(idx).pixelcolor);\n";
-code += "\n";
-code += "      rect(palettepos, ypos, 300, rheight);\n";
-code += "      ypos += rheight;\n";
-code += "      prevColor = colors.get(idx).pixelcolor;\n";
-code += "    }\n";
-code += "  }\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
 code = "";
 pushMatrix();
 translate(200, 200 );
-textFont(codeFont, 40);
+textFont(mainFont, 60);
+code += "      color paletteColor = colors.get(idx).pixelcolor;\n";
+code += "\n";
+code += "      stroke(paletteColor);\n";
+code += "      fill(paletteColor);\n";
+code += "      rect(palettepos, ypos, 300, rheight);\n";
+code += "\n";
+fill(commentFill);
+text("      // top it off with the hex value for the colors", 0, 414, width*0.8, height*0.8);
+fill(0);
+code += "\n";
+code += "      textFont(mainFont, 40);\n";
+code += "      fill(paletteColor);\n";
+code += "      text(\"0x\"+hex(paletteColor), palettepos + 350, ypos+30);\n";
+code += "\n";
+code += "      ypos += rheight;\n";
+code += "\n";
+code += "    }\n";
+code += "  }\n";
 code += "\n";
 code += "  popMatrix();\n";
 code += "\n";
 code += "}\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
+
 
 }
 
@@ -982,19 +1249,22 @@ void titlePage() {
   textFont(titleFont, 148);
  
   // value determines the color of 'Colorist'
-  int titleFill = (int) random(3);
+  int titleFill = int(random(3));
   
   if(titleFill == 0) {
     // fill with pink
     fill(#EC394E);
+    commentFill = #FF5891;
   }
   else if(titleFill == 1) {
     // fill with yellow
     fill(#ECDA39);
+    commentFill = #EC9E0D;
   }
   else {
     // fill with blue
     fill(#8DEDFF);
+    commentFill = #3ED3F0;
   }
   text("Colorist", 0, 0);
   fill(255);
