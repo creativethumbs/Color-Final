@@ -61,15 +61,29 @@ void draw() {
   simContrastPage4_print();
   goToNext();
   
-  for(int i = 0; i < images.length; i++) {
-    palettePage(i);
-    goToNext();
+  int numimages = 6;
+  ArrayList<Integer> indices = new ArrayList<Integer>();
+  
+  while(numimages > 0){
+    int selectedimage = int(random(15));
+    boolean foundidx = false;
+    for(int i = 0; i < indices.size(); i++) {
+      foundidx = (indices.get(i) == selectedimage);
+      if(foundidx)
+        break;
+    }
+    if(!foundidx) {
+      palettePage(selectedimage);
+      goToNext();
+      numimages--;
+      indices.add(selectedimage);
+    }
   }
   
   palettePage_print();
   goToNext();
   
-  monochromePage();
+  //monochromePage();
   
   // Exit the program 
   println("Finished.");
@@ -132,11 +146,11 @@ void simContrastPage1() {
   
   // evenly mix the first two colors to create 
   // the 'middle' color
-  // (recommended) season with randomness
-  color mid = color((r_col1+red(col2))/2f + random(-15,15), 
-                    (g_col1+green(col2))/2f + random(-15,15),
-                    (b_col1+blue(col2))/2f + random(-15,15)) ;
+  float mixedred = sqrt((sq(red(col1))*0.5 +sq(red(col2))*0.5));
+  float mixedgreen = sqrt((sq(green(col1))*0.5 +sq(green(col2))*0.5));
+  float mixedblue = sqrt((sq(blue(col1))*0.5 +sq(blue(col2))*0.5));
   
+  color mid = color(mixedred, mixedgreen, mixedblue);
   // pre-translate the transformation matrix
   // to the size of your margins
   pushMatrix();
@@ -286,10 +300,11 @@ void simContrastPage2() {
   
   // evenly mix the first two colors to create 
   // the 'middle' color
-  // (recommended) season with randomness
-  color mid = color((r_col1+red(col2))/2f + random(-15,15), 
-                    (g_col1+green(col2))/2f + random(-15,15),
-                    (b_col1+blue(col2))/2f + random(-15,15)) ;
+  float mixedred = sqrt((sq(red(col1))*0.5 +sq(red(col2))*0.5));
+  float mixedgreen = sqrt((sq(green(col1))*0.5 +sq(green(col2))*0.5));
+  float mixedblue = sqrt((sq(blue(col1))*0.5 +sq(blue(col2))*0.5));
+  
+  color mid = color(mixedred, mixedgreen, mixedblue);
   
   // pre-translate the transformation matrix
   // to the size of your margins
@@ -479,6 +494,91 @@ popMatrix();
 
 }
 
+// make 4 colors look like 3
+void make4looklike3() {
+  // recipe for making 4 colors look like 3
+  colorMode(HSB,360,100,100); 
+  // prepare the first and second colors
+  color col1 = color(random(0,360), random(20,100), random(30,100));
+  color col2 = color(random(0,360), random(20,100), random(30,100));
+  
+  //float[] hues = new float[12];
+  float minDiff_col1 = 360;
+  float minDiff_col2 = 360;  
+  for(int i = 0; i < 12; i++) {
+    int hue = i * 30; 
+    if(abs(hue - hue(col1)) < minDiff_col1) {
+      minDiff_col1 = abs(hue - hue(col1));
+    }
+    if(abs(hue - hue(col2)) < minDiff_col2) {
+      minDiff_col2 = abs(hue - hue(col2));
+    }
+  }
+  println(hue(col1));
+  
+  // look up the hue values for each color 
+  float red = 0; 
+  float orange = 30;
+  float yellow = 60;
+  float green_yellow = 90; 
+  float green = 120; 
+  float cyan_green = 150; 
+  float cyan = 180; 
+  float blue_cyan = 210; 
+  float blue = 240; 
+  float purple = 270;
+  float magenta = 300; 
+  float red_magenta = 330; 
+  
+  /*
+  // evenly mix the first two colors to create 
+  // the 'middle' color
+  // (recommended) season with randomness
+  color mid1 = color((r_col1+red(col2))/2f + random(-15,15), 
+                    (g_col1+green(col2))/2f + random(-15,15),
+                    (b_col1+blue(col2))/2f + random(-15,15));
+  
+  // find the difference between the first color's red
+  // and the second color's red
+  float red_diff = abs(red(col1) - red(col2)); 
+  // repeat for green and blue
+  float green_diff = abs(green(col1) - green(col2)); 
+  float blue_diff = abs(blue(col1) - blue(col2)); 
+  
+  // pre-translate the transformation matrix
+  // to the size of your margins
+  pushMatrix();
+  translate(margin, margin);
+  
+  rectMode(CORNER);
+  
+  // arrange opposing colors beside each other
+  fill(col1);
+  stroke(col1);
+  rect(0,0,pgwidth/2f,pgheight);
+  fill(col2);
+  stroke(col2);
+  rect(pgwidth/2f,0,pgwidth/2f,pgheight);
+  
+  // top with the middle color
+  fill(mid);
+  noStroke();
+  
+  triangle(pgwidth*0.1,pgheight/2f,pgwidth*0.4,pgheight/4f, pgwidth*0.4,pgheight*0.75);
+  triangle(pgwidth*0.9,pgheight/2f,pgwidth*0.6,pgheight/4f, pgwidth*0.6,pgheight*0.75);
+  
+  popMatrix();
+  
+  textFont(mainFont, 60);
+  fill(col1);
+  text("0x"+hex(col1), width*0.05, height*0.05);
+  fill(col2);
+  text("0x"+hex(col2), width*0.05 + 300, height*0.05);
+  fill(mid);
+  text("0x"+hex(mid), width*0.05 + 600, height*0.05);
+  */
+}
+
 // a schotter tribute
 void simContrastPage3() {
   // recipe for schotter simultaneous contrast  
@@ -498,10 +598,11 @@ void simContrastPage3() {
   
   // evenly mix the first two colors to create 
   // the 'middle' color
-  // (recommended) season with randomness
-  color mid = color((r_col1+red(col2))/2f + random(-20,20), 
-                    (g_col1+green(col2))/2f + random(-20,20),
-                    (b_col1+blue(col2))/2f + random(-15,15)) ;
+  float mixedred = sqrt((sq(red(col1))*0.5 +sq(red(col2))*0.5));
+  float mixedgreen = sqrt((sq(green(col1))*0.5 +sq(green(col2))*0.5));
+  float mixedblue = sqrt((sq(blue(col1))*0.5 +sq(blue(col2))*0.5));
+  
+  color mid = color(mixedred, mixedgreen, mixedblue);
   
   // pre-translate the transformation matrix
   // to the size of your margins
@@ -883,7 +984,7 @@ ArrayList<Pixel> colors = new ArrayList<Pixel>();
 float tolerance = 50.0;
 int totalCount = 0; 
 float proptolerance = 0.005;
-PImage[] images = new PImage[6];
+PImage[] images = new PImage[15];
 
 public class Pixel {
   public ArrayList pixelgroup;   
@@ -919,17 +1020,19 @@ void palettePage(int imgindex) {
   for(int i = colors.size()-1; i >= 0 ; i--) {
      colors.remove(i);
   } 
+  PImage sourceimg = images[imgindex];
   
-  int iwidth = images[imgindex].width;
-  int iheight = images[imgindex].height;
-  images[imgindex].resize(0, (int)pgheight);
-  float palettepos = images[imgindex].width + 50;
+  sourceimg.resize(0, (int)pgheight);
+  int iwidth = sourceimg.width;
+  int iheight = sourceimg.height;
+  color temp = sourceimg.get(0,0);
+  float palettepos = sourceimg.width + 50;
   
   // extract colors from image
   // and add them to the palette
   for(int i = 0; i < iheight; i++) {
     for(int j = 0; j < iwidth; j++) {
-      color currpix = images[imgindex].get(i,j);
+      color currpix = sourceimg.get(i,j);
       
       if(notBlackorWhite(currpix)) {
         if(colors.size() == 0) {
@@ -992,8 +1095,7 @@ void palettePage(int imgindex) {
   pushMatrix();
   // place image a little to the right of your margins
   translate(margin + 700, margin);
-  image(images[imgindex], 0,0);
-  
+  image(sourceimg, 0,0);
   // place palette beside image
   for(int i = 0; i < colors.size(); i++) { 
     float prop = colors.get(i).count / ((float)netCount);
@@ -1005,6 +1107,7 @@ void palettePage(int imgindex) {
       float totgreen = 0; 
       float totblue = 0;  
       
+      // calculate an average value of the colors in each group
       int groupsize = colors.get(i).pixelgroup.size();
       for(int j = 0; j < groupsize; j++) {
         Pixel thepixel = colors.get(i);
