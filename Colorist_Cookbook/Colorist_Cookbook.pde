@@ -8,8 +8,17 @@ float pgwidth;
 float pgheight;
 int margin = 200;
 int commentFill;
+int numimages = 15;
 
 PShape blob;
+
+// for palette grabber
+ArrayList<Pixel> colors = new ArrayList<Pixel>();
+float tolerance = 50.0;
+int totalCount = 0; 
+float proptolerance = 0.005;
+PImage[] images = new PImage[numimages];
+String[] names = new String[numimages];
 
 void setup() {
   size(3508, 2480, PDF, "The Colorist Cookbook.pdf");
@@ -21,9 +30,26 @@ void setup() {
   codeFont = createFont("PIXEARG_.TTF",148); 
   
   blob = loadShape("blob.svg");
-  for(int i = 0; i < images.length; i++) {
-    images[i] = loadImage("img"+i+".jpg");
+  
+  String path = sketchPath+"/data/images/";
+  File[] files = listFiles(path);
+  for(int i = 0; i < images.length; i++) { 
+    String filename = files[i].getName();
+    names[i] = filename.substring(0, filename.length()-4);
+    images[i] = loadImage(path+filename);
   }
+}
+
+//taken from http://processing.org/learning/topics/directorylist.html
+File[] listFiles(String dir) {
+ File file = new File(dir);
+ if (file.isDirectory()) {
+   File[] files = file.listFiles();
+   return files;
+ } else {
+   // If it's not a directory
+   return null;
+ }
 }
 
 void draw() {
@@ -33,28 +59,33 @@ void draw() {
   goToNext();
   
   // 3 pages of the first example of simulataneous contrast
-  for(int i = 0; i < 3; i++) { 
+  for(int i = 0; i < 4; i++) { 
     simContrastPage1();
     goToNext();
   } 
   simContrastPage1_print();
   goToNext();
   // 3 pages of the second example of simulataneous contrast
-  for(int i = 0; i < 3; i++) { 
+  for(int i = 0; i < 4; i++) { 
     simContrastPage2();
     goToNext();
   }
   
   simContrastPage2_print();
   goToNext();
-  
+  /*
   simContrastPage3();
   goToNext();
   
   simContrastPage3_print();
-  goToNext();
+  goToNext();*/
   
-  for(int i = 0; i < 5; i++) { 
+  for(int i = 0; i < 3; i++) { 
+    make4looklike3();
+    goToNext();
+  }
+  
+  for(int i = 0; i < 3; i++) { 
     simContrastPage4();
     goToNext();
   }
@@ -118,7 +149,7 @@ void goToNext() {
     if(pgnum%2 == 1) 
       text(pgnum, width*0.05, height*0.97);
     else
-       text(pgnum, width*0.95, height*0.97);
+      text(pgnum, width*0.95, height*0.97);
     
   }
   PGraphicsPDF pdf = (PGraphicsPDF) g;
@@ -136,14 +167,17 @@ void simContrastPage1() {
   float g_col1 = random(2,84) + random(2,84) + random(2,84);
   float b_col1 = random(2,84) + random(2,84) + random(2,84); 
   
-  color col1 = color(r_col1, g_col1, b_col1);
+  //color col1 = color(r_col1, g_col1, b_col1);
+  color col1 = color(random(0,255), random(0,255), random(0,255));
   
   // prepare the color opposite to the first color
   // season with a touch of randomness
+  /*
   color col2 = color(255 - r_col1 + random(-7,7), 
                       255 - g_col1 + random(-7,7), 
                       255 - b_col1 + random(-7,7));
-  
+  */
+  color col2 = color(random(0,255), random(0,255), random(0,255));
   // evenly mix the first two colors to create 
   // the 'middle' color
   float mixedred = sqrt((sq(red(col1))*0.5 +sq(red(col2))*0.5));
@@ -290,14 +324,17 @@ void simContrastPage2() {
   float g_col1 = random(2,84) + random(2,84) + random(2,84);
   float b_col1 = random(2,84) + random(2,84) + random(2,84); 
   
-  color col1 = color(r_col1, g_col1, b_col1);
+  //color col1 = color(r_col1, g_col1, b_col1);
+  color col1 = color(random(0,255), random(0,255), random(0,255));
   
   // prepare the 'opposite' color to the first color
   // season with a touch of randomness
-  color col2 = color(255 - r_col1 + random(-7,7), 
-                      255 - g_col1 + random(-7,7), 
-                      255 - b_col1 + random(-7,7));
-  
+  /*
+  color col2 = color(255 - r_col1 + random(-20,20), 
+                      255 - g_col1 + random(-20,20), 
+                      255 - b_col1 + random(-20,20));
+  */
+  color col2 = color(random(0,255), random(0,255), random(0,255));
   // evenly mix the first two colors to create 
   // the 'middle' color
   float mixedred = sqrt((sq(red(col1))*0.5 +sq(red(col2))*0.5));
@@ -496,54 +533,41 @@ popMatrix();
 
 // make 4 colors look like 3
 void make4looklike3() {
-  // recipe for making 4 colors look like 3
-  colorMode(HSB,360,100,100); 
+  // recipe for making 4 colors look like 3 
   // prepare the first and second colors
-  color col1 = color(random(0,360), random(20,100), random(30,100));
-  color col2 = color(random(0,360), random(20,100), random(30,100));
+  float r1 = random(0,25.5);
+  float g1 = random(0,25.5);
+  float b1 = random(0,25.5);
+  color col1 = color(r1*10, g1*10, b1*10);
+  //color col1 = color(random(0,255), random(0,255), random(0,255));
+  //color col2 = color(random(0,255), random(0,255), random(0,255));
   
-  //float[] hues = new float[12];
-  float minDiff_col1 = 360;
-  float minDiff_col2 = 360;  
-  for(int i = 0; i < 12; i++) {
-    int hue = i * 30; 
-    if(abs(hue - hue(col1)) < minDiff_col1) {
-      minDiff_col1 = abs(hue - hue(col1));
-    }
-    if(abs(hue - hue(col2)) < minDiff_col2) {
-      minDiff_col2 = abs(hue - hue(col2));
-    }
-  }
-  println(hue(col1));
+  color col2 = color(255 - red(col1), 
+                      255 - green(col1), 
+                      255 - blue(col1));
   
-  // look up the hue values for each color 
-  float red = 0; 
-  float orange = 30;
-  float yellow = 60;
-  float green_yellow = 90; 
-  float green = 120; 
-  float cyan_green = 150; 
-  float cyan = 180; 
-  float blue_cyan = 210; 
-  float blue = 240; 
-  float purple = 270;
-  float magenta = 300; 
-  float red_magenta = 330; 
-  
-  /*
   // evenly mix the first two colors to create 
   // the 'middle' color
-  // (recommended) season with randomness
-  color mid1 = color((r_col1+red(col2))/2f + random(-15,15), 
-                    (g_col1+green(col2))/2f + random(-15,15),
-                    (b_col1+blue(col2))/2f + random(-15,15));
+  float mixedred = sqrt((sq(red(col1))*0.5 +sq(red(col2))*0.5));
+  float mixedgreen = sqrt((sq(green(col1))*0.5 +sq(green(col2))*0.5));
+  float mixedblue = sqrt((sq(blue(col1))*0.5 +sq(blue(col2))*0.5));
   
-  // find the difference between the first color's red
-  // and the second color's red
-  float red_diff = abs(red(col1) - red(col2)); 
-  // repeat for green and blue
-  float green_diff = abs(green(col1) - green(col2)); 
-  float blue_diff = abs(blue(col1) - blue(col2)); 
+  color mid = color(mixedred, mixedgreen, mixedblue);
+  
+  float c1_weight = 0.35;
+  float c2_weight = 0.65; 
+  
+  mixedred = sqrt((sq(red(col1))*c1_weight +sq(red(mid))*c2_weight));
+  mixedgreen = sqrt((sq(green(col1))*c1_weight +sq(green(mid))*c2_weight));
+  mixedblue = sqrt((sq(blue(col1))*c1_weight +sq(blue(mid))*c2_weight));
+  
+  color mixed1 = color(mixedred, mixedgreen, mixedblue);
+  
+  mixedred = sqrt((sq(red(col2))*c1_weight +sq(red(mid))*c2_weight));
+  mixedgreen = sqrt((sq(green(col2))*c1_weight +sq(green(mid))*c2_weight));
+  mixedblue = sqrt((sq(blue(col2))*c1_weight +sq(blue(mid))*c2_weight));
+  
+  color mixed2 = color(mixedred, mixedgreen, mixedblue);
   
   // pre-translate the transformation matrix
   // to the size of your margins
@@ -555,17 +579,26 @@ void make4looklike3() {
   // arrange opposing colors beside each other
   fill(col1);
   stroke(col1);
-  rect(0,0,pgwidth/2f,pgheight);
+  //rect(0,0,pgwidth/2f,pgheight);
+  rect(0,0,pgwidth,pgheight/2);
   fill(col2);
   stroke(col2);
-  rect(pgwidth/2f,0,pgwidth/2f,pgheight);
+  //rect(pgwidth/2f,0,pgwidth/2f,pgheight);
+  rect(0,pgheight/2,pgwidth,pgheight/2);
   
   // top with the middle color
-  fill(mid);
+  fill(mixed1);
   noStroke();
+  //rect(pgwidth/6, pgheight/3, pgwidth/6, pgheight/3);
+  rect(pgwidth/3, pgheight/6, pgwidth/3, pgheight/6);  
   
-  triangle(pgwidth*0.1,pgheight/2f,pgwidth*0.4,pgheight/4f, pgwidth*0.4,pgheight*0.75);
-  triangle(pgwidth*0.9,pgheight/2f,pgwidth*0.6,pgheight/4f, pgwidth*0.6,pgheight*0.75);
+  fill(mixed2);
+  //rect((pgwidth*2)/3, pgheight/3, pgwidth/6, pgheight/3); 
+  rect((pgwidth)/3, (pgheight*2)/3, pgwidth/3, pgheight/6); 
+  
+  fill(mid);
+  //rect((pgwidth * 0.4375), pgheight/3, pgwidth/8, pgheight/3);
+  rect(pgwidth/3, pgheight*0.4375, pgwidth/3, pgheight/8);  
   
   popMatrix();
   
@@ -574,9 +607,13 @@ void make4looklike3() {
   text("0x"+hex(col1), width*0.05, height*0.05);
   fill(col2);
   text("0x"+hex(col2), width*0.05 + 300, height*0.05);
+  fill(mixed1);
+  text("0x"+hex(mixed1), width*0.05 + 600, height*0.05);
   fill(mid);
-  text("0x"+hex(mid), width*0.05 + 600, height*0.05);
-  */
+  text("0x"+hex(mid), width*0.05 + 900, height*0.05);
+  fill(mixed2);
+  text("0x"+hex(mixed2), width*0.05 + 1200, height*0.05);
+  
 }
 
 // a schotter tribute
@@ -805,7 +842,8 @@ void simContrastPage4() {
   // switch working color mode to HSB
   // before preparing the foreground color
   colorMode(HSB,360,100,100); 
-  color col1 = color(random(0,360), random(90,100), random(80,100));
+  float h1 = random(0,3.6);
+  color col1 = color(h1*100, random(90,100), random(80,100));
   
   rectMode(CORNER);
   pushMatrix();
@@ -978,14 +1016,6 @@ void monochromePage() {
 }
 
 // recipe for palette grabber
-
-// prepare initial ingredients 
-ArrayList<Pixel> colors = new ArrayList<Pixel>();
-float tolerance = 50.0;
-int totalCount = 0; 
-float proptolerance = 0.005;
-PImage[] images = new PImage[15];
-
 public class Pixel {
   public ArrayList pixelgroup;   
   public int count; 
