@@ -8,7 +8,7 @@ float pgwidth;
 float pgheight;
 int margin = 200;
 int commentFill;
-int numimages = 15;
+int folderimages = 20;
 
 PShape blob;
 
@@ -17,8 +17,8 @@ ArrayList<Pixel> colors = new ArrayList<Pixel>();
 float tolerance = 50.0;
 int totalCount = 0; 
 float proptolerance = 0.005;
-PImage[] images = new PImage[numimages];
-String[] names = new String[numimages];
+PImage[] images = new PImage[folderimages];
+String[] names = new String[folderimages];
 
 void setup() {
   size(3508, 2480, PDF, "The Colorist Cookbook.pdf");
@@ -35,7 +35,7 @@ void setup() {
   File[] files = listFiles(path);
   for(int i = 0; i < images.length; i++) { 
     String filename = files[i].getName();
-    names[i] = filename.substring(0, filename.length()-4);
+    names[i] = filename.substring(1, filename.length()-4);
     images[i] = loadImage(path+filename);
   }
 }
@@ -92,11 +92,17 @@ void draw() {
   simContrastPage4_print();
   goToNext();
   
+  for(int i = 0; i < 3; i++) { 
+    johannesitten();
+    goToNext();
+  }
+  
   int numimages = 6;
   ArrayList<Integer> indices = new ArrayList<Integer>();
   
   while(numimages > 0){
-    int selectedimage = int(random(15));
+    int selectedimage = int(random(folderimages));
+    // is the image already included in the book?
     boolean foundidx = false;
     for(int i = 0; i < indices.size(); i++) {
       foundidx = (indices.get(i) == selectedimage);
@@ -105,6 +111,10 @@ void draw() {
     }
     if(!foundidx) {
       palettePage(selectedimage);
+      textFont(mainFont, 60);
+      fill(0);
+      text("artist: \n"+names[selectedimage], margin, margin); 
+      
       goToNext();
       numimages--;
       indices.add(selectedimage);
@@ -994,6 +1004,40 @@ popMatrix();
 
 }
 
+void johannesitten() {
+  // recipe for Johannes Itten studies
+  
+  // switch working color mode to HSB
+  // before preparing the foreground color
+  colorMode(HSB,360,100,100); 
+  float value = random(20,100);
+  
+  rectMode(CORNER);
+  pushMatrix();
+  translate(margin + 500, margin);
+  noStroke(); 
+  
+  for(int row = 0; row < 5; row++) {
+    for(int col = 0; col < 5; col++) {
+      color squarecol = color(random(0,360), random(30,100), value);
+      
+      fill(squarecol);
+      stroke(squarecol);
+      rect(400*col, 400*row, 400, 400);
+    }
+    
+  }
+  
+  
+  popMatrix();
+  colorMode(RGB);
+  
+  textFont(mainFont, 60);
+  fill(0);
+  text("value: " +value, width*0.05, height*0.05);
+}
+
+
 void monochromePage() {
   //fill(236,95,12,5);
   background(0);
@@ -1163,7 +1207,7 @@ void palettePage(int imgindex) {
   }
   
   popMatrix();
-   
+  
 }
 
 void palettePage_print() {
