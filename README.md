@@ -1,1 +1,3 @@
 # Color-Final
+
+A self-directed final project for my color theory class. Colorist_Cookbook is a Processing program that generates a seven-chapter (+appendix) PDF of color studies. Each chapter of the book contains a body of work that applies a particular aspect of color theory. The reason I wanted to pursue this project is because although I felt like I had learned a lot in my color theory class, I was worried that I would end up forgetting the material. By algorithmically creating color studies that applied the concepts taught in class, I was able to more strongly reinforce my understanding of color theory. This project was a valuable learning experience for me, as it allowed me to challenge myself as both a computer scientist and an artist. 
