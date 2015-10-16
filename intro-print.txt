@@ -1,0 +1,8 @@
+
+para += "Color, \"the property possessed by an object of producing different sensations on the eye as a result of the way the object reflects or emits light\"--according to the Dictionary app on my laptop. Here's another: \"one, or any mixture, of the constituents into which light can be separated in a spectrum or rainbow, sometimes including (loosely) black and white\". Whatever that means. ";
+para += "\n\n";
+para += "It is believed that color 'ought' to be separate from language, and that the more we try to define or describe color the further we are from truly experiencing it. When I started writing this book it was never my intention to emerge with a definition of what color is--rather, I was interested in understanding color and seeing whether the things we see with our eyes can be reproduced systematically. Methodically. Algorithmically. But the more I tried to develop these algorithms, the more I realized that describing color was exactly what I was trying to do. ";
+para += "\n\n";
+para += "I am at a stage in my life where I am still trying to understand how things in the world work, still trying to figure out who I am, still suffering from the occasional existential crisis. Since I am probably unqualified to articulate something on behalf of other people, this book is not about how color works for everyone. This is about how color works for me. ";
+para += "\n\n";
+para += "This is The Colorist's Cookbook. ";

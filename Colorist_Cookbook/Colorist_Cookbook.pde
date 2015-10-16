@@ -32,7 +32,9 @@ void setup() {
   
   blob = loadShape("blob.svg");
   
-  String path = sketchPath+"/data/images/";
+  // sketchPath() works for Processing 3.0+
+  // for older versions of Processing just sketchPath should work
+  String path = sketchPath()+"/data/images/";
   File[] files = listFiles(path);
   for(int i = 0; i < images.length; i++) { 
     String filename = files[i].getName();
@@ -53,11 +55,27 @@ File[] listFiles(String dir) {
  }
 }
 
+// draws the entire book 
 void draw() {
   titlePage();
   goToNext();
   quotePage();
   goToNext();
+  
+  /* --------------- CHAPTER 0: Introduction --------------- */
+  
+  textFont(titleFont, 50);
+  fill(0);
+  textAlign(CENTER);
+  text("Chapter 00: Introduction", width/2, height/2); 
+  textAlign(LEFT);
+  goToNext();
+  
+  introPage();
+  
+  goToNext();
+  
+  /* --------------- CHAPTER 1: 3 Colors Into 4 Part I --------------- */
   
   textFont(titleFont, 50);
   fill(0);
@@ -66,13 +84,19 @@ void draw() {
   textAlign(LEFT);
   goToNext();
   
-  // 3 pages of the first example of simulataneous contrast
+  chap1Intro(); 
+  
+  goToNext(); 
+  
+  // 4 pages for Chapter 1
   for(int i = 0; i < 4; i++) { 
     simContrastPage1();
     goToNext();
   } 
   simContrastPage1_print();
   goToNext();
+  
+  /* --------------- CHAPTER 2: 3 Colors Into 4 Part II --------------- */
   
   textFont(titleFont, 50);
   fill(0);
@@ -81,13 +105,15 @@ void draw() {
   textAlign(LEFT);
   goToNext();
   
-  // 3 pages of the second example of simulataneous contrast
+  // 4 pages for Chapter 2
   for(int i = 0; i < 4; i++) { 
     simContrastPage2();
     goToNext();
   }
   simContrastPage2_print();
   goToNext();
+  
+  /* --------------- CHAPTER 3: 4 Colors Into 3 --------------- */
   
   textFont(titleFont, 50);
   fill(0);
@@ -96,12 +122,15 @@ void draw() {
   textAlign(LEFT);
   goToNext();
   
+  // 3 pages for Chapter 3
   for(int i = 0; i < 3; i++) { 
     make4looklike3();
     goToNext();
   }
   make4looklike3_print();
   goToNext();
+  
+  /* --------------- CHAPTER 4: 5 Colors Into 3 --------------- */
   
   textFont(titleFont, 50);
   fill(0);
@@ -110,12 +139,15 @@ void draw() {
   textAlign(LEFT);
   goToNext();
   
+  // 3 pages for Chapter 4
   for(int i = 0; i < 3; i++) { 
     make5looklike3();
     goToNext();
   }
   make5looklike3_print();
   goToNext();
+  
+  /* --------------- CHAPTER 5: Color Modulation --------------- */
   
   textFont(titleFont, 50);
   fill(0);
@@ -124,12 +156,15 @@ void draw() {
   textAlign(LEFT);
   goToNext();
   
+  // 5 pages for Chapter 5
   for(int i = 0; i < 5; i++) { 
     modulation();
     goToNext();
   }
   modulation_print();
   goToNext();
+  
+  /* --------------- CHAPTER 6: Bridging Colors --------------- */
   
   textFont(titleFont, 50);
   fill(0);
@@ -138,12 +173,15 @@ void draw() {
   textAlign(LEFT);
   goToNext();
   
+  // 3 pages for Chapter 6
   for(int i = 0; i < 3; i++) { 
     simContrastPage4();
     goToNext();
   }
   simContrastPage4_print();
   goToNext();
+  
+  /* --------------- CHAPTER 7: Same Value Studies --------------- */
   
   textFont(titleFont, 50);
   fill(0);
@@ -158,6 +196,8 @@ void draw() {
   }
   johannesitten_print();
   goToNext();
+  
+  /* --------------- APPENDIX: Palettes --------------- */
   
   textFont(titleFont, 50);
   fill(0);
@@ -196,10 +236,12 @@ void draw() {
   textFont(titleFont, 50);
   fill(0);
   textAlign(CENTER);
-  text("A special thanks to Clayton Merrell and Rafael Abreu-Canedo\nfor your guidance and suppport.", width/2, height/2); 
+  text("A special thanks to Clayton Merrell and Rafael Abreu-Canedo\nfor your guidance and support.", width/2, height/2); 
   textAlign(LEFT); 
   
-  //monochromePage();
+  goToNext();
+  fill(0); 
+  rect(0,0,width,height); 
   
   // Exit the program 
   println("Finished.");
@@ -248,6 +290,41 @@ void goToNext() {
   pdf.nextPage();
   
   pgnum++;
+}
+
+void introPage() {
+  String para = ""; 
+ 
+para += "Color, \"the property possessed by an object of producing different sensations on the eye as a result of the way the object reflects or emits light\"--according to the Dictionary app on my laptop. Here's another: \"one, or any mixture, of the constituents into which light can be separated in a spectrum or rainbow, sometimes including (loosely) black and white\". Whatever that means. ";
+para += "\n\n";
+para += "It is believed that color 'ought' to be separate from language, and that the more we try to define or describe color the further we are from truly experiencing it. When I started writing this book it was never my intention to emerge with a definition of what color is--rather, I was interested in understanding color and seeing whether the things we see with our eyes can be reproduced systematically. Methodically. Algorithmically. But the more I tried to develop these algorithms, the more I realized that describing color was exactly what I was trying to do. ";
+para += "\n\n";
+para += "I am at a stage in my life where I am still trying to understand how things in the world work, still trying to figure out who I am, still suffering from the occasional existential crisis. Since I am probably unqualified to articulate something on behalf of other people, this book is not about how color works for everyone. This is about how color works for me. ";
+para += "\n\n";
+para += "This is The Colorist's Cookbook. ";
+  
+  pushMatrix();
+  //translate(200,200); 
+  textFont(mainFont, 60);
+  text(para, width*0.2, height*0.2, width*0.6, height*0.8);
+  popMatrix();
+}
+
+void chap1Intro() {
+  String para = ""; 
+  
+para += "Remember the dress that turned into a viral phenomenon? Not that thing Lady Gaga wore to the VMA's that one year--but the one that got famous just because people couldn't decide whether it was black and blue or white and gold? In February 2015, a woman took a picture of a dress she wanted to wear to a wedding, and released the photo on Tumblr after many of her friends disagreed over the color. The picture spread quickly across the Internet, and sparked an intense public debate about the color of the dress. It turns out that this phenomenon can be explained by the pure science of color vision. When scientists pitched in to provide insight into what was going on they found that if the dress was shown in yellow lighting the majority of people would see it as blue and black, while lighting with a blue bias caused people to view the dress as white and gold.* ";
+para += "\n\n";
+para += "According to color theory, having a color in the background removes that color from the foreground--this is why the dress shown against yellow lighting would make it look less yellow and more blue. I won't get into the specifics of the science behind this because I'm running out of space on this page and frankly I don't fully understand it myself--but this is a very important and interesting concept in color theory that is the basis of many optical illusions. (It also really f**ked me up and made me question whether I was worthy of having perfect color vision.) This chapter is about using this very concept to make 3 colors look like 4. I hope it causes you to lose as much faith in your eyeballs as I did. ";
+para += "\n\n";
+para += "\n\n";
+para += "*Look up #thedress or Dressgate if my summary displeased you and you want to find out more ";
+
+  pushMatrix();
+  //translate(200,200); 
+  textFont(mainFont, 60);
+  text(para, width*0.2, height*0.2, width*0.6, height*0.8);
+  popMatrix();
 }
 
 // simple demonstrations of simulataneous contrast
@@ -1193,6 +1270,7 @@ void simContrastPage4() {
   int min = 0;
   int max = 360;
   int h1 = random.nextInt(max-min+1)+min;
+  int h2 = random.nextInt(max-min+1)+min;
   
   color col1 = color(h1, random(90,100), random(80,100));
   
@@ -1897,7 +1975,7 @@ void titlePage() {
     fill(#8DEDFF);
     commentFill = #3ED3F0;
   }
-  text("Colorist", width/2, height/2+200);
+  text("Colorist's", width/2, height/2+200);
   fill(255);
   text("Cookbook", width/2, height/2+450);
  
