@@ -3,9 +3,9 @@ import tkMessageBox
  
 output = []
 line_list = []
-with open('chap1.txt', 'r') as f:
+with open('chap2.txt', 'r') as f:
     line_list = f.readlines()
-out = open('chap1-print.txt', 'w')
+out = open('chap2-print.txt', 'w')
 
 for i in range(len(line_list)): 
     currline = line_list[i]

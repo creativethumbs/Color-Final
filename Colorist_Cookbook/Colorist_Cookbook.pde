@@ -105,6 +105,10 @@ void draw() {
   textAlign(LEFT);
   goToNext();
   
+  chap2Intro();
+  
+  goToNext(); 
+  
   // 4 pages for Chapter 2
   for(int i = 0; i < 4; i++) { 
     simContrastPage2();
@@ -320,6 +324,27 @@ para += "\n\n";
 para += "\n\n";
 para += "*Look up #thedress or Dressgate if my summary displeased you and you want to find out more ";
 
+  pushMatrix();
+  //translate(200,200); 
+  textFont(mainFont, 60);
+  text(para, width*0.2, height*0.2, width*0.6, height*0.8);
+  popMatrix();
+}
+
+void chap2Intro() {
+  String para = ""; 
+
+para += "Last Tuesday, I had to go to my professor's office hours to prepare for an exam. My friend and I made our way to the back corner of the room and sat down, taking out our notes and note-taking instruments and whatever else people possess when they need to study. As more students shuffled into the small office with questions about the material, the afternoon proceeded unremarkably. Some time passed, and as the questions began to slow down I started to have a fairly unremarkable conversation with my friend about Windows computers: ";
+para += "\n\n";
+para += "\"Oh, you're a Windows person?\" I asked him. \n";
+para += "\"Yeah,\" he replied. \n";
+para += "\"Okay, I'm not judging,\" I lied. \n";
+para += "And then: \n";
+para += "\"I am,\" chimed in my professor. \"Macs are better.\"";
+para += "\n\n";
+para += "And that's when the room was thrown into a passive-aggressive debate about whether Macs were better than Windows machines (or rather, why Windows machines were better than Macs). ";
+para += "\n\n";
+para += "Now I have a confession to make: for the majority of public situations in which I am surrounded by people who are some combination of scientists/engineers/mathematicians, I generally avoid declaring myself as an art student--not out of shame but as a precautionary measure to avoid hostility and having the metaphorical daggers thrown at my back. But for whatever reason, on that unremarkable Tuesday, during that unremarkable conversation, it was exactly what I did. ";
   pushMatrix();
   //translate(200,200); 
   textFont(mainFont, 60);
