@@ -30,11 +30,11 @@ void setup() {
   mainFont = createFont("monkey.ttf",148);
   codeFont = createFont("PIXEARG_.TTF",148); 
   
-  blob = loadShape("blob.svg");
-  
   // sketchPath() works for Processing 3.0+
   // for older versions of Processing just sketchPath should work
-  String path = sketchPath()+"/data/images/";
+  //println(dataPath("")); 
+  //String path = sketchPath()+"/data/images/";
+  String path = dataPath("")+"/images/";
   File[] files = listFiles(path);
   for(int i = 0; i < images.length; i++) { 
     String filename = files[i].getName();
@@ -126,6 +126,10 @@ void draw() {
   textAlign(LEFT);
   goToNext();
   
+  chap3Intro();
+  
+  goToNext(); 
+  
   // 3 pages for Chapter 3
   for(int i = 0; i < 3; i++) { 
     make4looklike3();
@@ -142,6 +146,10 @@ void draw() {
   text("Chapter 04: 5 Colors Into 3", width/2, height/2); 
   textAlign(LEFT);
   goToNext();
+
+  chap4Intro(); 
+
+  goToNext(); 
   
   // 3 pages for Chapter 4
   for(int i = 0; i < 3; i++) { 
@@ -190,7 +198,7 @@ void draw() {
   textFont(titleFont, 50);
   fill(0);
   textAlign(CENTER);
-  text("Chapter 07: Same Value Studies (After Johannes Itten)", width/2, height/2); 
+  text("Chapter 07: Same Value Studies", width/2, height/2); 
   textAlign(LEFT);
   goToNext();
   
@@ -296,6 +304,8 @@ void goToNext() {
   pgnum++;
 }
 
+/* ========================= INTRO PAGES ========================= */
+
 void introPage() {
   String para = ""; 
  
@@ -308,7 +318,7 @@ para += "\n\n";
 para += "This is The Colorist's Cookbook. ";
   
   pushMatrix();
-  //translate(200,200); 
+
   textFont(mainFont, 60);
   text(para, width*0.2, height*0.2, width*0.6, height*0.8);
   popMatrix();
@@ -325,7 +335,7 @@ para += "\n\n";
 para += "*Look up #thedress or Dressgate if my summary displeased you and you want to find out more ";
 
   pushMatrix();
-  //translate(200,200); 
+
   textFont(mainFont, 60);
   text(para, width*0.2, height*0.2, width*0.6, height*0.8);
   popMatrix();
@@ -334,7 +344,7 @@ para += "*Look up #thedress or Dressgate if my summary displeased you and you wa
 void chap2Intro() {
   String para = ""; 
 
-para += "Last Tuesday, I had to go to my professor's office hours to prepare for an exam. My friend and I made our way to the back corner of the room and sat down, taking out our notes and note-taking instruments and whatever else people possess when they need to study. As more students shuffled into the small office with questions about the material, the afternoon proceeded unremarkably. Some time passed, and as the questions began to slow down I started to have a fairly unremarkable conversation with my friend about Windows computers: ";
+para += "So I probably should be saying something about the next chapter, but I want to tell you a story instead. Last Tuesday, I had to go to my professor's office hours to prepare for an exam. My friend and I made our way to the back corner of the room and sat down, taking out our notes and note-taking instruments and whatever else people possess when they need to study. As more students shuffled into the small office with questions about the material, the afternoon proceeded unremarkably. Some time passed, and as the questions began to slow down I started to have a fairly unremarkable conversation with my friend about Windows computers: ";
 para += "\n\n";
 para += "\"Oh, you're a Windows person?\" I asked him. \n";
 para += "\"Yeah,\" he replied. \n";
@@ -344,13 +354,60 @@ para += "\"I am,\" chimed in my professor. \"Macs are better.\"";
 para += "\n\n";
 para += "And that's when the room was thrown into a passive-aggressive debate about whether Macs were better than Windows machines (or rather, why Windows machines were better than Macs). ";
 para += "\n\n";
-para += "Now I have a confession to make: for the majority of public situations in which I am surrounded by people who are some combination of scientists/engineers/mathematicians, I generally avoid declaring myself as an art student--not out of shame but as a precautionary measure to avoid hostility and having the metaphorical daggers thrown at my back. But for whatever reason, on that unremarkable Tuesday, during that unremarkable conversation, it was exactly what I did. ";
+para += "Now I have a confession to make: for the majority of public situations in which I am surrounded by people who are some combination of scientists/engineers/mathematicians, I generally avoid declaring myself as an art student--not out of shame but as a precautionary measure to avoid hostility and having metaphorical daggers thrown at my back. But for whatever reason, on that unremarkable Tuesday, during that unremarkable conversation, it was exactly what I did. ";
   pushMatrix();
-  //translate(200,200); 
+
   textFont(mainFont, 60);
   text(para, width*0.2, height*0.2, width*0.6, height*0.8);
   popMatrix();
 }
+
+void chap3Intro() {
+  String para = ""; 
+
+para += "\"I think as an art person,\" I started boldly. \"I am naturally inclined to like Macs more,\" I could feel the daggers digging into my spine. \"It's just--\" as the daggers made their way deeper into my skin, I found myself helplessly fumbling for words--\"I don't know, the colors are just...nicer?\" ";
+para += "\n\n";
+para += "A heavy silence. ";
+para += "\n\n";
+para += "And then: ";
+para += "\"That's not a valid reason,\" argued the guy across the table. ";
+para += "\n\n";
+para += "Is it? ";
+para += "\n\n";
+para += "When were colors ever 'a valid reason'? ";
+
+  pushMatrix();
+
+  textFont(mainFont, 60);
+  text(para, width*0.2, height*0.2, width*0.6, height*0.8);
+  popMatrix();
+}
+
+void chap4Intro() {
+  String para = ""; 
+
+para += "You may have noticed that some of the studies you've seen so far work pretty effectively, while others don't seem to work at all. ";
+para += "\n\n";
+para += "You may be waiting for me to provide you with some sort of explanation for that. ";
+para += "\n\n";
+para += "You may be stopping and asking yourself, 'Is this really ART???' ";
+para += "\n\n";
+para += "You may be debating whether you should just skip this useless expository text or read on. ";
+para += "\n\n";
+para += "You may be sitting on your living room couch right now--winding and rewinding your mind--trying to pull yourself back to the time when you were able to feel the warm sun on your face without having to worry about getting burned later, when Tuesdays were good and you didn't miss the tingle of someone else's breath on your skin. ";
+para += "\n\n";
+para += "You may be wondering what that previous sentence has to do with anything. ";
+para += "\n\n";
+para += "You may not even care. But even if you don't, thanks for caring enough to read on.";
+
+  pushMatrix();
+
+  textFont(mainFont, 60);
+  text(para, width*0.2, height*0.2, width*0.6, height*0.8);
+  popMatrix();
+}
+
+/* ========================= MAIN PAGES ========================= */
 
 // simple demonstrations of simulataneous contrast
 void simContrastPage1() {
@@ -1305,8 +1362,9 @@ void simContrastPage4() {
   noStroke(); 
   
   // glaze with the background color, which is opposite from the foreground color
-  // add a touch of randomness
-  color bg = color((hue(col1)+180)%360, random(90,100), random(80,100));
+  // with a touch of randomness
+  color bg = color((hue(col1)+180+h2)%360, random(90,100), random(80,100));
+  
   fill(bg);
   rect(0, 0, pgwidth,pgheight);
   
@@ -1389,10 +1447,10 @@ text("  // glaze with the background color, which is opposite from the foregroun
 fill(0);
 code += "\n";
 fill(commentFill);
-text("  // add a touch of randomness", 0, 1311, width*0.8, height*0.8);
+text("  // with a touch of randomness", 0, 1311, width*0.8, height*0.8);
 fill(0);
 code += "\n";
-code += "  color bg = color((hue(col1)+180)%360, random(90,100), random(80,100));\n";
+code += "  color bg = color((hue(col1)+180+h2)%360, random(90,100), random(80,100));\n";
 code += "  fill(bg);\n";
 code += "  rect(0, 0, pgwidth,pgheight);\n";
 code += "\n";
@@ -1501,7 +1559,7 @@ pushMatrix();
 translate(200, 200 );
 String code = "";
 fill(commentFill);
-text("  // recipe for Johannes Itten studies", 0, 0, width*0.8, height*0.8);
+text("  // recipe for same value studies (a la Johannes Itten)", 0, 0, width*0.8, height*0.8);
 fill(0);
 code += "\n";
 code += "\n";
@@ -1545,28 +1603,6 @@ code += "  colorMode(RGB);\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 
-}
-
-
-void monochromePage() {
-  //fill(236,95,12,5);
-  background(0);
-  noFill();
-  stroke(236,95,12, 60);
-  float posX = 0;
-  float posY;
-  pushMatrix();
-  translate(-500, margin + pgheight/3.0);
-  
-  for(int i = 0; i < 2000; i++) {
-    posY = sin(posX*0.005) * 200; 
-    shape(blob,posX,posY);
-    
-    posX += 4;
-  }
-  
-  popMatrix();
-  
 }
 
 // recipe for palette grabber

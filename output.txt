@@ -1,8 +1,0 @@
-
-para += "Color, \"the property possessed by an object of producing different \nsensations on the eye as a result of the way \nthe object reflects or emits light\"--according to the Dictionary app \non my laptop. Here's another: \"one, or any mixture, of \nthe constituents into which light can be separated in a \nspectrum or rainbow, sometimes including (loosely) black and white\". Whatever \nthat means. ";
-para += "\n";
-para += "It is believed that color 'ought' to be separate from \nlanguage, and that the more we try to define or \ndescribe color the further we are from truly experiencing it. \nWhen I started writing this book it was never my \nintention to emerge with a definition of what color is--rather, \nI was interested in understanding color and seeing whether the \nthings we see with our eyes can be reproduced systematically. \nMethodically. Algorithmically. But the more I tried to develop these \nalgorithms, the more I realized that describing color was exactly \nwhat I was trying to do. ";
-para += "\n";
-para += "I am at a stage in my life where I \nam still trying to understand how things in the world \nwork, still trying to figure out who I am, still \nsuffering from the occasional existential crisis. Since I am probably \nunqualified to articulate something on behalf of other people, this \nbook is not about how color works for everyone. This \nis about how color works for me. ";
-para += "\n";
-para += "This is The Colorist's Cookbook. ";
