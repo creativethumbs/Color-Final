@@ -23,10 +23,12 @@ String[] names = new String[folderimages];
 
 void setup() {
   size(3508, 2480, PDF, "The Colorist Cookbook.pdf");
+  
   pgwidth = width-(margin*2);
   pgheight = height-(margin*2);
   
-  titleFont = createFont("Cheap Potatoes Black Thin.ttf",148); 
+  //titleFont = createFont("Cheap Potatoes Black Thin.ttf",148);
+  titleFont = createFont("Whitestone.otf",148); 
   mainFont = createFont("monkey.ttf",148);
   codeFont = createFont("PIXEARG_.TTF",148); 
   
@@ -58,14 +60,14 @@ File[] listFiles(String dir) {
 // draws the entire book 
 void draw() {
   titlePage();
-  goToNext();
+  //goToNext();
   quotePage();
   goToNext();
   
   /* --------------- CHAPTER 0: Introduction --------------- */
   
-  textFont(titleFont, 50);
-  fill(0);
+  textFont(titleFont, 120);
+  fill(commentFill);
   textAlign(CENTER);
   text("Chapter 00: Introduction", width/2, height/2); 
   textAlign(LEFT);
@@ -77,8 +79,8 @@ void draw() {
   
   /* --------------- CHAPTER 1: 3 Colors Into 4 Part I --------------- */
   
-  textFont(titleFont, 50);
-  fill(0);
+  textFont(titleFont, 120);
+  fill(commentFill);
   textAlign(CENTER);
   text("Chapter 01: 3 Colors Into 4 Part I", width/2, height/2); 
   textAlign(LEFT);
@@ -98,8 +100,8 @@ void draw() {
   
   /* --------------- CHAPTER 2: 3 Colors Into 4 Part II --------------- */
   
-  textFont(titleFont, 50);
-  fill(0);
+  textFont(titleFont, 120);
+  fill(commentFill);
   textAlign(CENTER);
   text("Chapter 02: 3 Colors Into 4 Part II", width/2, height/2); 
   textAlign(LEFT);
@@ -119,8 +121,8 @@ void draw() {
   
   /* --------------- CHAPTER 3: 4 Colors Into 3 --------------- */
   
-  textFont(titleFont, 50);
-  fill(0);
+  textFont(titleFont, 120);
+  fill(commentFill);
   textAlign(CENTER);
   text("Chapter 03: 4 Colors Into 3", width/2, height/2); 
   textAlign(LEFT);
@@ -140,8 +142,8 @@ void draw() {
   
   /* --------------- CHAPTER 4: 5 Colors Into 3 --------------- */
   
-  textFont(titleFont, 50);
-  fill(0);
+  textFont(titleFont, 120);
+  fill(commentFill);
   textAlign(CENTER);
   text("Chapter 04: 5 Colors Into 3", width/2, height/2); 
   textAlign(LEFT);
@@ -161,11 +163,15 @@ void draw() {
   
   /* --------------- CHAPTER 5: Color Modulation --------------- */
   
-  textFont(titleFont, 50);
-  fill(0);
+  textFont(titleFont, 120);
+  fill(commentFill);
   textAlign(CENTER);
   text("Chapter 05: Color Modulation", width/2, height/2); 
   textAlign(LEFT);
+  goToNext();
+
+  chap5Intro();
+
   goToNext();
   
   // 5 pages for Chapter 5
@@ -178,8 +184,8 @@ void draw() {
   
   /* --------------- CHAPTER 6: Bridging Colors --------------- */
   
-  textFont(titleFont, 50);
-  fill(0);
+  textFont(titleFont, 120);
+  fill(commentFill);
   textAlign(CENTER);
   text("Chapter 06: Bridging Colors", width/2, height/2); 
   textAlign(LEFT);
@@ -195,24 +201,41 @@ void draw() {
   
   /* --------------- CHAPTER 7: Same Value Studies --------------- */
   
-  textFont(titleFont, 50);
-  fill(0);
+  textFont(titleFont, 120);
+  fill(commentFill);
   textAlign(CENTER);
   text("Chapter 07: Same Value Studies", width/2, height/2); 
   textAlign(LEFT);
   goToNext();
-  
-  for(int i = 0; i < 3; i++) { 
-    johannesitten();
+
+  int step = 360/2;
+  for(int i = 0; i < 360; i += step) {
+    println(str(i) + " " + str(i+step));
+    sameValue(i,i+step);
     goToNext();
   }
-  johannesitten_print();
+
+  sameValue_print();
   goToNext();
+
+  /* --------------- CHAPTER 8: Same Saturation Studies --------------- */
+  
+  textFont(titleFont, 120);
+  fill(commentFill);
+  textAlign(CENTER);
+  text("Chapter 08: Same Saturation Studies", width/2, height/2); 
+  textAlign(LEFT);
+  goToNext();
+  
+  for(int i = 0; i < 360; i += step) {
+    sameSaturation(i,i+step);
+    goToNext();
+  }
   
   /* --------------- APPENDIX: Palettes --------------- */
   
-  textFont(titleFont, 50);
-  fill(0);
+  textFont(titleFont, 120);
+  fill(commentFill);
   textAlign(CENTER);
   text("Appendix: Palettes", width/2, height/2); 
   textAlign(LEFT);
@@ -245,15 +268,17 @@ void draw() {
   palettePage_print();
   goToNext();
   
-  textFont(titleFont, 50);
+  textFont(titleFont, 100);
   fill(0);
   textAlign(CENTER);
-  text("A special thanks to Clayton Merrell and Rafael Abreu-Canedo\nfor your guidance and support.", width/2, height/2); 
+  text("A special thanks to\nClayton Merrell\nand Bob Bingham\nand Rafael Abreu-Canedo\nfor your guidance and support.", width/2, height*0.4 ); 
+  
   textAlign(LEFT); 
   
-  goToNext();
-  fill(0); 
-  rect(0,0,width,height); 
+  //goToNext();
+  
+  //fill(0); 
+  //rect(0,0,width,height); 
   
   // Exit the program 
   println("Finished.");
@@ -261,8 +286,9 @@ void draw() {
 }
 
 void quotePage() { 
+  background(255); 
   textAlign(LEFT); 
-  textFont(titleFont, 90);
+  textFont(titleFont, 148);
   
   // randomly chooses one of the quotes text files
   int rand = (int) random(8);
@@ -307,6 +333,7 @@ void goToNext() {
 /* ========================= INTRO PAGES ========================= */
 
 void introPage() {
+  fill(0); 
   String para = ""; 
  
 para += "Color, \"the property possessed by an object of producing different sensations on the eye as a result of the way the object reflects or emits light\"--according to the Dictionary app on my laptop. Here's another: \"one, or any mixture, of the constituents into which light can be separated in a spectrum or rainbow, sometimes including (loosely) black and white\". Whatever that means. ";
@@ -400,6 +427,23 @@ para += "You may be wondering what that previous sentence has to do with anythin
 para += "\n\n";
 para += "You may not even care. But even if you don't, thanks for caring enough to read on.";
 
+  pushMatrix();
+
+  textFont(mainFont, 60);
+  text(para, width*0.2, height*0.2, width*0.6, height*0.8);
+  popMatrix();
+}
+
+void chap5Intro() {
+  String para = ""; 
+
+para += "If you've been keeping up with the code segments (which you should--I painstakingly included them for a reason!), you could probably observe that a large portion of the studies boils down to just a bunch of math. This is because in computerland, colors (and all other things) are just numbers. Consider this: since every color is expressed as a number, then for a encoding scheme with 6 hexadecimal* numbers the value of colors ranges from 0 to 16,777,215--that gives us a total of 16,777,216 possible colors! Does that mean there are 16 million colors that exist in the world? \n";
+para += "\n";
+para += "Well...no. It turns out that humans, on average, can only see about 10 million colors in a single viewing condition--so computers really encode 6 million more colors than necessary. So is the answer 10 million, then? Remember that the 10 million refers to the number of colors we can see in a SINGLE viewing condition. How many possible viewing conditions are there? And how do we take into account that color perception can differ from one person to another? That means the real answer is infinity. Now the question is: is the number of colors that exist in the world countably infinite, or uncountably infinite?** I suck at discrete math, so maybe someone else can answer this question for me. \n";
+para += "\n";
+para += "\n";
+para += "*this is just a way of saying base-16, which is a very common numerical system for computers. Normal people think in base-10. \n";
+para += "**for those who are not familiar with these terms: in mathland there are two infinities, the uncountable and countable. If that isn't weird enough, it has also been proven that the uncountable infinity is 'bigger' than the countable infinity. \n";
   pushMatrix();
 
   textFont(mainFont, 60);
@@ -1513,31 +1557,50 @@ popMatrix();
 
 }
 
-void johannesitten() {
-  // recipe for Johannes Itten studies
+void sameValue(int huemin, int huemax) {
+  // recipe for same value studies (a la Johannes Itten)
   
-  // switch working color mode to HSB
-  // before preparing the foreground color
+  // we're working in HSB space now!
+  // RGB is for posers
   colorMode(HSB,360,100,100); 
   SecureRandom random = new SecureRandom();
   
-  int min = 20;
-  int max = 100;
+  int min = 40;
+  int max = 95;
   int value = random.nextInt(max-min+1)+min;
+
+  // boundaries for saturation
+  int satmin = 0;
+  int satmax = 100;
+  
+  // noise variables
+  int noisemin = 0;
+  int noisemax = 100;
+  float hoff = random.nextInt(noisemax-noisemin+1)+noisemin; 
+  float soff = random.nextInt(noisemax-noisemin+1)+noisemin; 
   
   rectMode(CORNER);
   pushMatrix();
   translate(margin + 500, margin);
   noStroke(); 
   
-  // sprinkle squares in a matrix, randomly 
+  // sprinkle squares in a matrix
   for(int row = 0; row < 5; row++) {
     for(int col = 0; col < 5; col++) {
-      color squarecol = color(random.nextInt(361), random.nextInt(71)+30, value);
+
+      // instead of using random, I'm mapping the colors to noise
+      // noise is a bit more 'organic' than random
+      float hue = map(noise(hoff), 0,1, huemin,huemax); 
+      float sat = map(noise(soff), 0,1, satmin,satmax); 
+      color squarecol = color(hue, sat, value); 
       
       fill(squarecol);
       stroke(squarecol);
       rect(400*col, 400*row, 400, 400);
+
+      // add a touch of magic numbers
+      hoff += 0.55; 
+      soff += 0.3; 
     }
     
   }
@@ -1549,8 +1612,7 @@ void johannesitten() {
   fill(0);
   text("value: " +value, width*0.05, height*0.05);
 }
-
-void johannesitten_print() {
+void sameValue_print() {
 fill(0);
 textAlign(LEFT);
 rectMode(CORNER);
@@ -1603,6 +1665,63 @@ code += "  colorMode(RGB);\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 
+}
+
+void sameSaturation(int huemin, int huemax) {
+  // recipe for same saturation studies
+  
+  // we're working in HSB space now!
+  // RGB is for posers
+  colorMode(HSB,360,100,100); 
+  SecureRandom random = new SecureRandom();
+  
+  int min = 0;
+  int max = 100;
+  int sat = random.nextInt(max-min+1)+min;
+
+  // boundaries for value
+  // (can't go too dark or else it will hardly be visible)
+  int valmin = 40;
+  int valmax = 95;
+  
+  // noise variables
+  int noisemin = 0;
+  int noisemax = 100;
+  float hoff = random.nextInt(noisemax-noisemin+1)+noisemin; 
+  float voff = random.nextInt(noisemax-noisemin+1)+noisemin; 
+  
+  rectMode(CORNER);
+  pushMatrix();
+  translate(margin + 500, margin);
+  noStroke(); 
+  
+  // sprinkle squares in a matrix
+  for(int row = 0; row < 5; row++) {
+    for(int col = 0; col < 5; col++) {
+
+      // instead of using random, I'm mapping the colors to noise
+      // noise is a bit more 'organic' than random
+      float hue = map(noise(hoff), 0,1, huemin,huemax); 
+      float val = map(noise(voff), 0,1, valmin,valmax); 
+      color squarecol = color(hue, sat, val); 
+      
+      fill(squarecol);
+      stroke(squarecol);
+      rect(400*col, 400*row, 400, 400);
+
+      // add a touch of magic numbers
+      hoff += 0.55; 
+      voff += 0.3; 
+    }
+    
+  }
+  
+  popMatrix();
+  colorMode(RGB);
+  
+  textFont(mainFont, 60);
+  fill(0);
+  text("saturation: " +sat, width*0.05, height*0.05);
 }
 
 // recipe for palette grabber
@@ -2014,12 +2133,12 @@ void titlePage() {
   
   textAlign(CENTER); 
   textFont(titleFont, 45);
-  text("The", width/2, height/2);
+  //text("The", width/2, height/2);
  
   textFont(titleFont, 148);
  
   // value determines the color of 'Colorist'
-  int titleFill = int(random(3));
+  int titleFill = int(random(4));
   
   if(titleFill == 0) {
     // fill with pink
@@ -2027,18 +2146,22 @@ void titlePage() {
     commentFill = #FF5891;
   }
   else if(titleFill == 1) {
-    // fill with yellow
-    fill(#ECDA39);
-    commentFill = #EC9E0D;
+    // fill with orange
+    fill(#FFA500);
+    commentFill = #ffa500;
+  }
+  else if(titleFill == 2) {
+    // fill with green
+    commentFill = #b8da44;
   }
   else {
     // fill with blue
-    fill(#8DEDFF);
-    commentFill = #3ED3F0;
+    fill(#40e0d0);
+    commentFill = #40e0d0;
   }
-  text("Colorist's", width/2, height/2+200);
-  fill(255);
-  text("Cookbook", width/2, height/2+450);
+  //text("Colorist's", width/2, height/2+200);
+  //fill(255);
+  //text("Cookbook", width/2, height/2+450);
  
   
   popMatrix();
