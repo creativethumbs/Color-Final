@@ -371,6 +371,42 @@ para += "*Look up #thedress or Dressgate if my summary displeased you and you wa
 void chap2Intro() {
   String para = ""; 
 
+para += "If you've been keeping up with the code (which you should--I painstakingly included it for a reason!), you could probably observe that everything boils down to just a bunch of math. This is because in computerland, colors (and all other things) are just numbers. Consider this: since every color is expressed as a number, then for a encoding scheme with 6 hexadecimal* numbers the value of colors ranges from 0 to 16,777,215--that gives us a total of 16,777,216 possible colors! Does that mean there are 16 million colors that exist in the world? \n";
+para += "\n";
+para += "Well...no. It turns out that humans, on average, can only see about 10 million colors in a single viewing condition--so computers really encode 6 million more colors than necessary. So is the answer 10 million, then? Remember that the 10 million refers to the number of colors we can see in a SINGLE viewing condition. How many possible viewing conditions are there? And how do we take into account that color perception can differ from one person to another? That means the real answer is infinity. Now the question is: is the number of colors that exist in the world countably infinite, or uncountably infinite?** I suck at discrete math, so maybe someone else can answer this question for me. \n";
+para += "\n";
+para += "\n";
+para += "*this is just a way of saying base-16, which is a very common numerical system for computers. Normal people think in base-10. \n";
+para += "**for those who are not familiar with these terms: in mathland there are two infinities, the uncountable and countable. If that isn't weird enough, it has also been proven that the uncountable infinity is 'bigger' than the countable infinity. \n";
+
+  pushMatrix();
+
+  textFont(mainFont, 60);
+  text(para, width*0.2, height*0.2, width*0.6, height*0.8);
+  popMatrix();
+}
+
+void chap3Intro() {
+  String para = ""; 
+
+para += "A guy named Pablo Picasso once said, \"Why do two colors, put one next to the other, sing? Can one really explain this? No. Just as one can never learn how to paint.\" I'm sorry Pab, but I'm going to have to disagree with you on this one because: \n";
+para += "\n";
+para += "1) I started learning how to paint the moment I taught myself how to hold a brush. I'm still learning. \n";
+para += "\n";
+para += "2) Although it's true that color harmony is complex and often tricky to articulate, it is not entirely inexplicable. Color theorists are better equipped to answer this than I am, but one reason why two colors may 'sing' when placed next to each other is because aesthetic responses can be evoked by complementary hues that are juxtaposed against each other, or analogous hues that are meshed with each other. \n";
+para += "\n";
+para += "The logician in me believes that we can always find a reasonable explanation for almost all observable phenomena. The philosopher in me believes that, without the aid of some kind of 'oracle', there is no way for us to really confirm that our explanations are reasonable. I guess this is why I decided to write this book--because I wanted to see if I could prove my selves wrong (and therefore right) by turning the logician into a philosopher, and the philosopher into a logician. \n";
+  
+  pushMatrix();
+
+  textFont(mainFont, 60);
+  text(para, width*0.2, height*0.2, width*0.6, height*0.8);
+  popMatrix();
+}
+
+void chap4Intro() {
+  String para = ""; 
+
 para += "So I probably should be saying something about the next chapter, but I want to tell you a story instead. Last Tuesday, I had to go to my professor's office hours to prepare for an exam. My friend and I made our way to the back corner of the room and sat down, taking out our notes and note-taking instruments and whatever else people possess when they need to study. As more students shuffled into the small office with questions about the material, the afternoon proceeded unremarkably. Some time passed, and as the questions began to slow down I started to have a fairly unremarkable conversation with my friend about Windows computers: ";
 para += "\n\n";
 para += "\"Oh, you're a Windows person?\" I asked him. \n";
@@ -389,7 +425,7 @@ para += "Now I have a confession to make: for the majority of public situations 
   popMatrix();
 }
 
-void chap3Intro() {
+void chap5Intro() {
   String para = ""; 
 
 para += "\"I think as an art person,\" I started boldly. \"I am naturally inclined to like Macs more,\" I could feel the daggers digging into my spine. \"It's just--\" as the daggers made their way deeper into my skin, I found myself helplessly fumbling for words--\"I don't know, the colors are just...nicer?\" ";
@@ -410,7 +446,7 @@ para += "When were colors ever 'a valid reason'? ";
   popMatrix();
 }
 
-void chap4Intro() {
+void chap6Intro() {
   String para = ""; 
 
 para += "You may have noticed that some of the studies you've seen so far work pretty effectively, while others don't seem to work at all. ";
@@ -427,23 +463,6 @@ para += "You may be wondering what that previous sentence has to do with anythin
 para += "\n\n";
 para += "You may not even care. But even if you don't, thanks for caring enough to read on.";
 
-  pushMatrix();
-
-  textFont(mainFont, 60);
-  text(para, width*0.2, height*0.2, width*0.6, height*0.8);
-  popMatrix();
-}
-
-void chap5Intro() {
-  String para = ""; 
-
-para += "If you've been keeping up with the code segments (which you should--I painstakingly included them for a reason!), you could probably observe that a large portion of the studies boils down to just a bunch of math. This is because in computerland, colors (and all other things) are just numbers. Consider this: since every color is expressed as a number, then for a encoding scheme with 6 hexadecimal* numbers the value of colors ranges from 0 to 16,777,215--that gives us a total of 16,777,216 possible colors! Does that mean there are 16 million colors that exist in the world? \n";
-para += "\n";
-para += "Well...no. It turns out that humans, on average, can only see about 10 million colors in a single viewing condition--so computers really encode 6 million more colors than necessary. So is the answer 10 million, then? Remember that the 10 million refers to the number of colors we can see in a SINGLE viewing condition. How many possible viewing conditions are there? And how do we take into account that color perception can differ from one person to another? That means the real answer is infinity. Now the question is: is the number of colors that exist in the world countably infinite, or uncountably infinite?** I suck at discrete math, so maybe someone else can answer this question for me. \n";
-para += "\n";
-para += "\n";
-para += "*this is just a way of saying base-16, which is a very common numerical system for computers. Normal people think in base-10. \n";
-para += "**for those who are not familiar with these terms: in mathland there are two infinities, the uncountable and countable. If that isn't weird enough, it has also been proven that the uncountable infinity is 'bigger' than the countable infinity. \n";
   pushMatrix();
 
   textFont(mainFont, 60);
@@ -1612,33 +1631,45 @@ void sameValue(int huemin, int huemax) {
   fill(0);
   text("value: " +value, width*0.05, height*0.05);
 }
+
 void sameValue_print() {
 fill(0);
 textAlign(LEFT);
 rectMode(CORNER);
 textFont(mainFont, 60);
-pushMatrix();
+pushMatrix(); 
 translate(200, 200 );
 String code = "";
 fill(commentFill);
-text("  // recipe for same value studies (a la Johannes Itten)", 0, 0, width*0.8, height*0.8);
+text("  // recipe for same value studies (a la Johannes Itten)", 0,0,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "\n";
+code += "\n";code += "\n";
 fill(commentFill);
-text("  // switch working color mode to HSB", 0, 138, width*0.8, height*0.8);
+text("  // we're working in HSB space now!", 0,138,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-fill(commentFill);
-text("  // before preparing the foreground color", 0, 207, width*0.8, height*0.8);
+code += "\n";fill(commentFill);
+text("  // RGB is for posers", 0,207,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "  colorMode(HSB,360,100,100);\n";
+code += "\n";code += "  colorMode(HSB,360,100,100);\n";
 code += "  SecureRandom random = new SecureRandom();\n";
 code += "\n";
-code += "  int min = 20;\n";
-code += "  int max = 100;\n";
+code += "  int min = 40;\n";
+code += "  int max = 95;\n";
 code += "  int value = random.nextInt(max-min+1)+min;\n";
+code += "\n";
+fill(commentFill);
+text("  // boundaries for saturation", 0,759,width*0.8,height*0.8);
+fill(0);
+code += "\n";code += "  int satmin = 0;\n";
+code += "  int satmax = 100;\n";
+code += "\n";
+fill(commentFill);
+text("  // noise variables", 0,1035,width*0.8,height*0.8);
+fill(0);
+code += "\n";code += "  int noisemin = 0;\n";
+code += "  int noisemax = 100;\n";
+code += "  float hoff = random.nextInt(noisemax-noisemin+1)+noisemin;\n";
+code += "  float soff = random.nextInt(noisemax-noisemin+1)+noisemin;\n";
 code += "\n";
 code += "  rectMode(CORNER);\n";
 code += "  pushMatrix();\n";
@@ -1646,26 +1677,51 @@ code += "  translate(margin + 500, margin);\n";
 code += "  noStroke();\n";
 code += "\n";
 fill(commentFill);
-text("  // sprinkle squares in a matrix, randomly", 0, 1104, width*0.8, height*0.8);
+text("  // sprinkle squares in a matrix", 0,1794,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "  for(int row = 0; row < 5; row++) {\n";
+code += "\n";code += "  for(int row = 0; row < 5; row++) {\n";
 code += "    for(int col = 0; col < 5; col++) {\n";
-code += "      color squarecol = color(random.nextInt(361), random.nextInt(71)+30, value);\n";
+code += "\n";
+text(code, 0, 0, width*0.8, height*0.8);
+popMatrix();
+goToNext();
+code = "";
+pushMatrix();
+translate(200, 200 );
+textFont(mainFont, 60);
+fill(commentFill);
+text("      // instead of using random, I'm mapping the colors to noise", 0,0,width*0.8,height*0.8);
+fill(0);
+code += "\n";fill(commentFill);
+text("      // noise is a bit more 'organic' than random", 0,69,width*0.8,height*0.8);
+fill(0);
+code += "\n";code += "      float hue = map(noise(hoff), 0,1, huemin,huemax);\n";
+code += "      float sat = map(noise(soff), 0,1, satmin,satmax);\n";
+code += "      color squarecol = color(hue, sat, value);\n";
 code += "\n";
 code += "      fill(squarecol);\n";
 code += "      stroke(squarecol);\n";
 code += "      rect(400*col, 400*row, 400, 400);\n";
+code += "\n";
+fill(commentFill);
+text("      // add a touch of magic numbers", 0,690,width*0.8,height*0.8);
+fill(0);
+code += "\n";code += "      hoff += 0.55;\n";
+code += "      soff += 0.3;\n";
 code += "    }\n";
 code += "\n";
 code += "  }\n";
 code += "\n";
 code += "  popMatrix();\n";
 code += "  colorMode(RGB);\n";
+code += "\n";
+code += "  textFont(mainFont, 60);\n";
+code += "  fill(0);\n";
+code += "  text(\"value: \" +value, width*0.05, height*0.05);\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
-
 }
+
 
 void sameSaturation(int huemin, int huemax) {
   // recipe for same saturation studies
