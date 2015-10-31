@@ -190,6 +190,10 @@ void draw() {
   text("Chapter 06: Bridging Colors", width/2, height/2); 
   textAlign(LEFT);
   goToNext();
+
+  chap6Intro();
+
+  goToNext();
   
   // 3 pages for Chapter 6
   for(int i = 0; i < 3; i++) { 
@@ -208,37 +212,30 @@ void draw() {
   textAlign(LEFT);
   goToNext();
 
-  int step = 360/2;
+  chap7Intro();
+
+  goToNext();
+
+  int step = 360/3;
   for(int i = 0; i < 360; i += step) {
-    println(str(i) + " " + str(i+step));
     sameValue(i,i+step);
     goToNext();
   }
 
   sameValue_print();
   goToNext();
-
-  /* --------------- CHAPTER 8: Same Saturation Studies --------------- */
-  
-  textFont(titleFont, 120);
-  fill(commentFill);
-  textAlign(CENTER);
-  text("Chapter 08: Same Saturation Studies", width/2, height/2); 
-  textAlign(LEFT);
-  goToNext();
-  
-  for(int i = 0; i < 360; i += step) {
-    sameSaturation(i,i+step);
-    goToNext();
-  }
   
   /* --------------- APPENDIX: Palettes --------------- */
   
   textFont(titleFont, 120);
   fill(commentFill);
   textAlign(CENTER);
-  text("Appendix: Palettes", width/2, height/2); 
+  text("Appendix: Proportional Palettes", width/2, height/2); 
   textAlign(LEFT);
+  goToNext();
+
+  chap8Intro();
+
   goToNext();
   
   int numimages = 10;
@@ -275,13 +272,7 @@ void draw() {
   
   textAlign(LEFT); 
   
-  //goToNext();
-  
-  //fill(0); 
-  //rect(0,0,width,height); 
-  
   // Exit the program 
-  println("Finished.");
   exit();
 }
 
@@ -371,14 +362,14 @@ para += "*Look up #thedress or Dressgate if my summary displeased you and you wa
 void chap2Intro() {
   String para = ""; 
 
-para += "If you've been keeping up with the code (which you should--I painstakingly included it for a reason!), you could probably observe that everything boils down to just a bunch of math. This is because in computerland, colors (and all other things) are just numbers. Consider this: since every color is expressed as a number, then for a encoding scheme with 6 hexadecimal* numbers the value of colors ranges from 0 to 16,777,215--that gives us a total of 16,777,216 possible colors! Does that mean there are 16 million colors that exist in the world? \n";
+para += "A guy named Pablo Picasso once said, \"Why do two colors, put one next to the other, sing? Can one really explain this? No. Just as one can never learn how to paint.\" I'm sorry Pab, but I'm going to have to disagree with you on this one because: \n";
 para += "\n";
-para += "Well...no. It turns out that humans, on average, can only see about 10 million colors in a single viewing condition--so computers really encode 6 million more colors than necessary. So is the answer 10 million, then? Remember that the 10 million refers to the number of colors we can see in a SINGLE viewing condition. How many possible viewing conditions are there? And how do we take into account that color perception can differ from one person to another? That means the real answer is infinity. Now the question is: is the number of colors that exist in the world countably infinite, or uncountably infinite?** I suck at discrete math, so maybe someone else can answer this question for me. \n";
+para += "1) I started learning how to paint the moment I taught myself how to hold a brush. I'm still learning. \n";
 para += "\n";
+para += "2) Although it's true that color harmony is complex and often tricky to articulate, it is not entirely inexplicable. Color theorists are better equipped to answer this than I am, but one reason why two colors may 'sing' when placed next to each other is because aesthetic responses can be evoked by complementary hues that are juxtaposed against each other, or analogous hues that are meshed with each other. \n";
 para += "\n";
-para += "*this is just a way of saying base-16, which is a very common numerical system for computers. Normal people think in base-10. \n";
-para += "**for those who are not familiar with these terms: in mathland there are two infinities, the uncountable and countable. If that isn't weird enough, it has also been proven that the uncountable infinity is 'bigger' than the countable infinity. \n";
-
+para += "The logician in me believes that we can always find a reasonable explanation for almost all observable phenomena. The philosopher in me believes that, without the aid of some kind of 'oracle', there is no way for us to really confirm that our explanations are reasonable. I guess this is why I decided to write this book--because I wanted to see if I could prove my selves wrong (and therefore right) by turning the logician into a philosopher, and the philosopher into a logician. \n";
+  
   pushMatrix();
 
   textFont(mainFont, 60);
@@ -389,14 +380,14 @@ para += "**for those who are not familiar with these terms: in mathland there ar
 void chap3Intro() {
   String para = ""; 
 
-para += "A guy named Pablo Picasso once said, \"Why do two colors, put one next to the other, sing? Can one really explain this? No. Just as one can never learn how to paint.\" I'm sorry Pab, but I'm going to have to disagree with you on this one because: \n";
+para += "If you've been keeping up with the code (which you should--I painstakingly included it for a reason!), you could probably observe that everything boils down to just a bunch of math. This is because in computerland, colors (and all other things) are just numbers. Consider this: since every color is expressed as a number, then for a encoding scheme with 6 hexadecimal* numbers the value of colors ranges from 0 to 16,777,215--that gives us a total of 16,777,216 possible colors! Does that mean there are 16 million colors that exist in the world? \n";
 para += "\n";
-para += "1) I started learning how to paint the moment I taught myself how to hold a brush. I'm still learning. \n";
+para += "Well...no. It turns out that humans, on average, can only see about 10 million colors in a single viewing condition--so computers really encode 6 million more colors than necessary. So is the answer 10 million, then? Remember that the 10 million refers to the number of colors we can see in a SINGLE viewing condition. How many possible viewing conditions are there? And how do we take into account that color perception can differ from one person to another? That means the real answer is infinity. Now the question is: is the number of colors that exist in the world countably infinite, or uncountably infinite?** I suck at discrete math, so maybe someone else can answer this question for me. \n";
 para += "\n";
-para += "2) Although it's true that color harmony is complex and often tricky to articulate, it is not entirely inexplicable. Color theorists are better equipped to answer this than I am, but one reason why two colors may 'sing' when placed next to each other is because aesthetic responses can be evoked by complementary hues that are juxtaposed against each other, or analogous hues that are meshed with each other. \n";
 para += "\n";
-para += "The logician in me believes that we can always find a reasonable explanation for almost all observable phenomena. The philosopher in me believes that, without the aid of some kind of 'oracle', there is no way for us to really confirm that our explanations are reasonable. I guess this is why I decided to write this book--because I wanted to see if I could prove my selves wrong (and therefore right) by turning the logician into a philosopher, and the philosopher into a logician. \n";
-  
+para += "*this is just a way of saying base-16, which is a very common numerical system for computers. Normal people think in base-10. \n";
+para += "**for those who are not familiar with these terms: in mathland there are two infinities, the uncountable and countable. If that isn't weird enough, it has also been proven that the uncountable infinity is 'bigger' than the countable infinity. \n";
+
   pushMatrix();
 
   textFont(mainFont, 60);
@@ -449,6 +440,20 @@ para += "When were colors ever 'a valid reason'? ";
 void chap6Intro() {
   String para = ""; 
 
+para += "I had vodka the other day (it was in a mixed drink). It was not unlike drinking the liquid embodiment of a migraine. Within a few gulps I felt my head spinning, as the world around me swirled together into a conglomerate of colors and lights. Before I knew it I had my elbows on the table, holding my forehead in my hands while squinting at my dad across from me. \n\n\"So yeah, I think in general my alcohol tolerance is pretty good,\" I began. A few moments later: \"I'm getting kinda sleepy.\" \n";
+para += "\n";
+para += "If my experience that day could be somehow represented as an infographic, it would look exactly like the next few studies. \n";
+
+  pushMatrix();
+
+  textFont(mainFont, 60);
+  text(para, width*0.2, height*0.2, width*0.6, height*0.8);
+  popMatrix();
+}
+
+void chap7Intro() {
+  String para = ""; 
+
 para += "You may have noticed that some of the studies you've seen so far work pretty effectively, while others don't seem to work at all. ";
 para += "\n\n";
 para += "You may be waiting for me to provide you with some sort of explanation for that. ";
@@ -462,6 +467,22 @@ para += "\n\n";
 para += "You may be wondering what that previous sentence has to do with anything. ";
 para += "\n\n";
 para += "You may not even care. But even if you don't, thanks for caring enough to read on.";
+
+  pushMatrix();
+
+  textFont(mainFont, 60);
+  text(para, width*0.2, height*0.2, width*0.6, height*0.8);
+  popMatrix();
+}
+
+void chap8Intro() {
+  String para = ""; 
+
+para += "I'm not very good at goodbyes. I'm not referring to the ones you say to your friends after you've had dinner with them or the ones you might have said to your parents after they dropped you off to your first day of school--I'm talking about the real goodbyes that creep up on you and then seize you by the chest the minute you realize you may not even be able to say 'hello' to that person again. A lot of the goodbyes I've made came in the form of poorly-worded emails, uncomfortable hugs, or long silences on the phone. Goodbyes, from my experience, tend not to be very 'good'--they're unsettling, they're awkward, they're emotionally taxing, but most of all they're just downright sad. So I've given up on trying to make my goodbyes 'good'. Instead, I decided that if I could manage to make them less sad, that's about as good as I can make it. \n";
+para += "\n";
+para += "I hope the goodbye here is not the sad kind I have just described. But in case it is, here's my attempt at making it less sad: I don't know who you are, whether you're a collegue or a friend or a family member or someone I've never even talked to before. Though that does not even matter, because this book is not about who you are. And it's not really even about color theory; this book is ultimately about who I am and how I understand some tiny subset of the universe. Regardless of whether you've read this book from the very beginning or decided to skip to the very end, I just wanted to say thanks. Thanks for thinking this book was worth more than just a few seconds of your time. Thanks for caring about what this existentially trapped twenty-something-year-old had to say. Thanks for reading. \n";
+para += "\n";
+para += "Thanks for staying. \n";
 
   pushMatrix();
 
@@ -1425,7 +1446,7 @@ void simContrastPage4() {
   noStroke(); 
   
   // glaze with the background color, which is opposite from the foreground color
-  // with a touch of randomness
+  // with a touch of randomness for enhanced flavor
   color bg = color((hue(col1)+180+h2)%360, random(90,100), random(80,100));
   
   fill(bg);
@@ -1475,28 +1496,26 @@ fill(0);
 textAlign(LEFT);
 rectMode(CORNER);
 textFont(mainFont, 60);
-pushMatrix();
+pushMatrix(); 
 translate(200, 200 );
 String code = "";
 fill(commentFill);
-text("  // recipe for using bridging colors", 0, 0, width*0.8, height*0.8);
+text("  // recipe for using bridging colors", 0,0,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "\n";
+code += "\n";code += "\n";
 fill(commentFill);
-text("  // switch working color mode to HSB", 0, 138, width*0.8, height*0.8);
+text("  // switch working color mode to HSB", 0,138,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-fill(commentFill);
-text("  // before preparing the foreground color", 0, 207, width*0.8, height*0.8);
+code += "\n";fill(commentFill);
+text("  // before preparing the foreground color", 0,207,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "  colorMode(HSB,360,100,100);\n";
+code += "\n";code += "  colorMode(HSB,360,100,100);\n";
 code += "  SecureRandom random = new SecureRandom();\n";
 code += "\n";
 code += "  int min = 0;\n";
 code += "  int max = 360;\n";
 code += "  int h1 = random.nextInt(max-min+1)+min;\n";
+code += "  int h2 = random.nextInt(max-min+1)+min;\n";
 code += "\n";
 code += "  color col1 = color(h1, random(90,100), random(80,100));\n";
 code += "\n";
@@ -1506,26 +1525,22 @@ code += "  translate(margin, margin);\n";
 code += "  noStroke();\n";
 code += "\n";
 fill(commentFill);
-text("  // glaze with the background color, which is opposite from the foreground color", 0, 1242, width*0.8, height*0.8);
+text("  // glaze with the background color, which is opposite from the foreground color", 0,1311,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-fill(commentFill);
-text("  // with a touch of randomness", 0, 1311, width*0.8, height*0.8);
+code += "\n";fill(commentFill);
+text("  // with a touch of randomness for enhanced flavor", 0,1380,width*0.8,height*0.8);
 fill(0);
+code += "\n";code += "  color bg = color((hue(col1)+180+h2)%360, random(90,100), random(80,100));\n";
 code += "\n";
-code += "  color bg = color((hue(col1)+180+h2)%360, random(90,100), random(80,100));\n";
 code += "  fill(bg);\n";
 code += "  rect(0, 0, pgwidth,pgheight);\n";
 code += "\n";
 fill(commentFill);
-text("  // randomly add 90 slices of the foreground color", 0, 1656, width*0.8, height*0.8);
+text("  // randomly add 90 slices of the foreground color", 0,1794,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "  for(int i = 0; i < 90; i++) {\n";
+code += "\n";code += "  for(int i = 0; i < 90; i++) {\n";
 code += "    float posX = random(0, pgwidth-200);\n";
 code += "    float posY = random(0, pgheight-200);\n";
-code += "\n";
-code += "    float rectw = random(100, min(1200, pgwidth-posX));\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
@@ -1533,30 +1548,28 @@ code = "";
 pushMatrix();
 translate(200, 200 );
 textFont(mainFont, 60);
+code += "\n";
+code += "    float rectw = random(100, min(1200, pgwidth-posX));\n";
 code += "    float recth = random(200, min(800, pgheight-posY));\n";
 code += "\n";
 fill(commentFill);
-text("    // the slices can overlap with each other,", 0, 138, width*0.8, height*0.8);
+text("    // the slices can overlap with each other,", 0,276,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-fill(commentFill);
-text("    // but they must be thin", 0, 207, width*0.8, height*0.8);
+code += "\n";fill(commentFill);
+text("    // but they must be thin", 0,345,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-fill(commentFill);
-text("    // like prosciutto", 0, 276, width*0.8, height*0.8);
+code += "\n";fill(commentFill);
+text("    // like prosciutto", 0,414,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "    fill(col1, 50);\n";
+code += "\n";code += "    fill(col1, 50);\n";
 code += "    rect(posX, posY, rectw,recth);\n";
 code += "\n";
 code += "  }\n";
 code += "\n";
 fill(commentFill);
-text("  // for balance, top with a few thin slices of the background color", 0, 690, width*0.8, height*0.8);
+text("  // for balance, top with a few thin slices of the background color", 0,828,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "  for(int i = 0; i < 10; i++) {\n";
+code += "\n";code += "  for(int i = 0; i < 10; i++) {\n";
 code += "    float posX = random(0, pgwidth-200);\n";
 code += "    float posY = random(0, pgheight-200);\n";
 code += "\n";
@@ -1566,15 +1579,10 @@ code += "\n";
 code += "    fill(bg,70);\n";
 code += "    rect(posX, posY, rectw,recth);\n";
 code += "\n";
-code += "  }\n";
-code += "\n";
-code += "  popMatrix();\n";
-code += "  colorMode(RGB);\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
-
-
 }
+
 
 void sameValue(int huemin, int huemax) {
   // recipe for same value studies (a la Johannes Itten)
@@ -1609,6 +1617,7 @@ void sameValue(int huemin, int huemax) {
 
       // instead of using random, I'm mapping the colors to noise
       // noise is a bit more 'organic' than random
+      // huemin and huemax are just parameters I defined at the beginning of the function
       float hue = map(noise(hoff), 0,1, huemin,huemax); 
       float sat = map(noise(soff), 0,1, satmin,satmax); 
       color squarecol = color(hue, sat, value); 
@@ -1631,6 +1640,7 @@ void sameValue(int huemin, int huemax) {
   fill(0);
   text("value: " +value, width*0.05, height*0.05);
 }
+
 
 void sameValue_print() {
 fill(0);
@@ -1695,6 +1705,9 @@ fill(0);
 code += "\n";fill(commentFill);
 text("      // noise is a bit more 'organic' than random", 0,69,width*0.8,height*0.8);
 fill(0);
+code += "\n";fill(commentFill);
+text("      // huemin and huemax are just parameters I defined at the beginning of the function", 0,138,width*0.8,height*0.8);
+fill(0);
 code += "\n";code += "      float hue = map(noise(hoff), 0,1, huemin,huemax);\n";
 code += "      float sat = map(noise(soff), 0,1, satmin,satmax);\n";
 code += "      color squarecol = color(hue, sat, value);\n";
@@ -1704,7 +1717,7 @@ code += "      stroke(squarecol);\n";
 code += "      rect(400*col, 400*row, 400, 400);\n";
 code += "\n";
 fill(commentFill);
-text("      // add a touch of magic numbers", 0,690,width*0.8,height*0.8);
+text("      // add a touch of magic numbers", 0,759,width*0.8,height*0.8);
 fill(0);
 code += "\n";code += "      hoff += 0.55;\n";
 code += "      soff += 0.3;\n";
