@@ -75,6 +75,9 @@ void draw() {
   
   goToNext(); 
   
+  // leave blank page for alignment
+  goToNext(); 
+  
   /* --------------- CHAPTER 0: Introduction --------------- */
   
   textFont(titleFont, 120);
@@ -122,8 +125,8 @@ void draw() {
   
   goToNext(); 
   
-  // 4 pages for Chapter 2
-  for(int i = 0; i < 4; i++) { 
+  // 3 pages for Chapter 2
+  for(int i = 0; i < 3; i++) { 
     simContrastPage2();
     goToNext();
   }
@@ -185,8 +188,8 @@ void draw() {
 
   goToNext();
   
-  // 5 pages for Chapter 5
-  for(int i = 0; i < 5; i++) { 
+  // 6 pages for Chapter 5
+  for(int i = 0; i < 6; i++) { 
     modulation();
     goToNext();
   }
@@ -206,8 +209,8 @@ void draw() {
 
   goToNext();
   
-  // 3 pages for Chapter 6
-  for(int i = 0; i < 3; i++) { 
+  // 4 pages for Chapter 6
+  for(int i = 0; i < 4; i++) { 
     simContrastPage4();
     goToNext();
   }
@@ -227,7 +230,7 @@ void draw() {
 
   goToNext();
 
-  int step = 360/3;
+  int step = 360/4;
   for(int i = 0; i < 360; i += step) {
     sameValue(i,i+step);
     goToNext();
@@ -249,7 +252,7 @@ void draw() {
 
   goToNext();
   
-  int numimages = 10;
+  int numimages = 9;
   ArrayList<Integer> indices = new ArrayList<Integer>();
   
   while(numimages > 0){
@@ -324,16 +327,16 @@ void tableOfContents() {
   textFont(mainFont, 60);
   String para = ""; 
 
-para += "00. Introduction................................................4 \n";
-para += "01. 3 Colors Into 4 Part I......................................6 \n";
-para += "02. 3 Colors Into 4 Part II....................................14 \n";
+para += "00. Introduction................................................5 \n";
+para += "01. 3 Colors Into 4 Part I......................................7 \n";
+para += "02. 3 Colors Into 4 Part II....................................15 \n";
 para += "03. 4 Colors Into 3............................................23 \n";
 para += "04. 5 Colors Into 3............................................31 \n";
 para += "05. Color Modulation...........................................39 \n";
-para += "06. Bridging Colors............................................48 \n";
-para += "07. Same Value Studies.........................................55 \n";
+para += "06. Bridging Colors............................................49 \n";
+para += "07. Same Value Studies.........................................57 \n";
 para += "\n";
-para += "Appendix.......................................................62 \n";
+para += "Appendix.......................................................65 \n";
 
   text(para, 0,100, width*.8, height*.8);
   
@@ -342,7 +345,7 @@ para += "Appendix.......................................................62 \n";
 }
 
 void goToNext() {
-  if(pgnum > 3) {
+  if(pgnum > 4) {
     textFont(mainFont, 80);
     fill(0);
     
@@ -1471,10 +1474,14 @@ void simContrastPage4() {
   colorMode(HSB,360,100,100); 
   SecureRandom random = new SecureRandom();
   
+  // prepare essential random ingredients
   int min = 0;
   int max = 360;
   int h1 = random.nextInt(max-min+1)+min;
-  int h2 = random.nextInt(max-min+1)+min;
+  
+  int min2 = 0;
+  int max2 = 180;
+  int h2 = random.nextInt(max2-min2+1)+min2;
   
   color col1 = color(h1, random(90,100), random(80,100));
   
@@ -1529,6 +1536,8 @@ void simContrastPage4() {
   text("0x"+hex(bg), width*0.05 + 300, height*0.05); 
 }
 
+
+
 void simContrastPage4_print() {
 fill(0);
 textAlign(LEFT);
@@ -1550,10 +1559,16 @@ fill(0);
 code += "\n";code += "  colorMode(HSB,360,100,100);\n";
 code += "  SecureRandom random = new SecureRandom();\n";
 code += "\n";
-code += "  int min = 0;\n";
+fill(commentFill);
+text("  // prepare essential random ingredients", 0,483,width*0.8,height*0.8);
+fill(0);
+code += "\n";code += "  int min = 0;\n";
 code += "  int max = 360;\n";
 code += "  int h1 = random.nextInt(max-min+1)+min;\n";
-code += "  int h2 = random.nextInt(max-min+1)+min;\n";
+code += "\n";
+code += "  int min2 = 0;\n";
+code += "  int max2 = 180;\n";
+code += "  int h2 = random.nextInt(max2-min2+1)+min2;\n";
 code += "\n";
 code += "  color col1 = color(h1, random(90,100), random(80,100));\n";
 code += "\n";
@@ -1563,22 +1578,16 @@ code += "  translate(margin, margin);\n";
 code += "  noStroke();\n";
 code += "\n";
 fill(commentFill);
-text("  // glaze with the background color, which is opposite from the foreground color", 0,1311,width*0.8,height*0.8);
+text("  // glaze with the background color, which is opposite from the foreground color", 0,1587,width*0.8,height*0.8);
 fill(0);
 code += "\n";fill(commentFill);
-text("  // with a touch of randomness for enhanced flavor", 0,1380,width*0.8,height*0.8);
+text("  // with a touch of randomness for enhanced flavor", 0,1656,width*0.8,height*0.8);
 fill(0);
 code += "\n";code += "  color bg = color((hue(col1)+180+h2)%360, random(90,100), random(80,100));\n";
 code += "\n";
 code += "  fill(bg);\n";
 code += "  rect(0, 0, pgwidth,pgheight);\n";
 code += "\n";
-fill(commentFill);
-text("  // randomly add 90 slices of the foreground color", 0,1794,width*0.8,height*0.8);
-fill(0);
-code += "\n";code += "  for(int i = 0; i < 90; i++) {\n";
-code += "    float posX = random(0, pgwidth-200);\n";
-code += "    float posY = random(0, pgheight-200);\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
@@ -1586,18 +1595,24 @@ code = "";
 pushMatrix();
 translate(200, 200 );
 textFont(mainFont, 60);
+fill(commentFill);
+text("  // randomly add 90 slices of the foreground color", 0,0,width*0.8,height*0.8);
+fill(0);
+code += "\n";code += "  for(int i = 0; i < 90; i++) {\n";
+code += "    float posX = random(0, pgwidth-200);\n";
+code += "    float posY = random(0, pgheight-200);\n";
 code += "\n";
 code += "    float rectw = random(100, min(1200, pgwidth-posX));\n";
 code += "    float recth = random(200, min(800, pgheight-posY));\n";
 code += "\n";
 fill(commentFill);
-text("    // the slices can overlap with each other,", 0,276,width*0.8,height*0.8);
+text("    // the slices can overlap with each other,", 0,552,width*0.8,height*0.8);
 fill(0);
 code += "\n";fill(commentFill);
-text("    // but they must be thin", 0,345,width*0.8,height*0.8);
+text("    // but they must be thin", 0,621,width*0.8,height*0.8);
 fill(0);
 code += "\n";fill(commentFill);
-text("    // like prosciutto", 0,414,width*0.8,height*0.8);
+text("    // like prosciutto", 0,690,width*0.8,height*0.8);
 fill(0);
 code += "\n";code += "    fill(col1, 50);\n";
 code += "    rect(posX, posY, rectw,recth);\n";
@@ -1605,7 +1620,7 @@ code += "\n";
 code += "  }\n";
 code += "\n";
 fill(commentFill);
-text("  // for balance, top with a few thin slices of the background color", 0,828,width*0.8,height*0.8);
+text("  // for balance, top with a few thin slices of the background color", 0,1104,width*0.8,height*0.8);
 fill(0);
 code += "\n";code += "  for(int i = 0; i < 10; i++) {\n";
 code += "    float posX = random(0, pgwidth-200);\n";
@@ -1617,9 +1632,14 @@ code += "\n";
 code += "    fill(bg,70);\n";
 code += "    rect(posX, posY, rectw,recth);\n";
 code += "\n";
+code += "  }\n";
+code += "\n";
+code += "  popMatrix();\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 }
+
+
 
 
 void sameValue(int huemin, int huemax) {
