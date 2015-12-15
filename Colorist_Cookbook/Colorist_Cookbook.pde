@@ -10,6 +10,7 @@ float pgheight;
 int margin = 200;
 int commentFill;
 int folderimages = 20;
+int numquotes = 17; 
 
 PShape blob;
 
@@ -113,7 +114,7 @@ void draw() {
   goToNext();
   
   /* --------------- CHAPTER 2: 3 Colors Into 4 Part II --------------- */
-  
+   
   textFont(titleFont, 120);
   fill(commentFill);
   textAlign(CENTER);
@@ -174,6 +175,18 @@ void draw() {
   }
   make5looklike3_print();
   goToNext();
+  
+  /* --------------- CHAPTER 5: Color Harmonies --------------- */
+  /*
+  textFont(titleFont, 120);
+  fill(commentFill);
+  textAlign(CENTER);
+  text("Chapter 05: Color Harmonies", width/2, height/2); 
+  textAlign(LEFT);
+  goToNext();
+  
+  colorHarmonies(); 
+  goToNext();*/ 
   
   /* --------------- CHAPTER 5: Color Modulation --------------- */
   
@@ -296,7 +309,7 @@ void quotePage() {
   textFont(titleFont, 148);
   
   // randomly chooses one of the quotes text files
-  int rand = (int) random(8);
+  int rand = (int) random(numquotes);
   String[] data = loadStrings("quotes/"+rand + ".txt");
   
   if(data != null) {
@@ -421,7 +434,7 @@ para += "The logician in me believes that we can always find a reasonable explan
 void chap3Intro() {
   String para = ""; 
 
-para += "If you've been keeping up with the code (which you should--I painstakingly included it for a reason!), you could probably observe that everything boils down to just a bunch of math. This is because in computerland, colors (and all other things) are just numbers. Consider this: since every color is expressed as a number, then for a encoding scheme with 6 hexadecimal* numbers the value of colors ranges from 0 to 16,777,215--that gives us a total of 16,777,216 possible colors! Does that mean there are 16 million colors that exist in the world? \n";
+para += "If you've been keeping up with the code (which you should--I painstakingly included it for a reason!), you could probably observe that everything boils down to just a bunch of math. This is because in computerland, colors (and all other things) are just numbers. Consider this: since every color is expressed as a number, then for an encoding scheme with 6 hexadecimal* numbers the value of colors ranges from 0 to 16,777,215--that gives us a total of 16,777,216 possible colors! Does that mean there are 16 million colors that exist in the world? \n";
 para += "\n";
 para += "Well...no. It turns out that humans, on average, can only see about 10 million colors in a single viewing condition--so computers really encode 6 million more colors than necessary. So is the answer 10 million, then? Remember that the 10 million refers to the number of colors we can see in a SINGLE viewing condition. How many possible viewing conditions are there? And how do we take into account that color perception can differ from one person to another? That means the real answer is infinity. Now the question is: is the number of colors that exist in the world countably infinite, or uncountably infinite?** I suck at discrete math, so maybe someone else can answer this question for me. \n";
 para += "\n";
@@ -538,6 +551,8 @@ para += "Thanks for staying. \n";
 void simContrastPage1() {
   // recipe for making 3 colors look like 4
   
+  // preheat color mode to RGB
+  colorMode(RGB, 255, 255, 255); 
   // prepare the first color
   SecureRandom random = new SecureRandom();
   
@@ -690,6 +705,7 @@ popMatrix();
 void simContrastPage2() {
   // recipe for making 3 colors look like 4...with holes!
   
+  colorMode(RGB,255,255,255); 
   // prepare the first color
   SecureRandom random = new SecureRandom();
   
@@ -901,6 +917,8 @@ popMatrix();
 void modulation() {
   // recipe for color modulation 
   
+  colorMode(RGB,255,255,255); 
+  
   SecureRandom random = new SecureRandom();
   
   // prepare the first color
@@ -1045,7 +1063,10 @@ popMatrix();
 }
 // make 4 colors look like 3
 void make4looklike3() {
-  // recipe for making 5 colors look like 3 
+  // recipe for making 5 colors look like 3
+  
+  colorMode(RGB,255,255,255); 
+  
   // prepare the first and second colors
   SecureRandom random = new SecureRandom();
   
@@ -1253,6 +1274,9 @@ popMatrix();
  
 void make5looklike3() {
   // recipe for making 5 colors look like 3 
+  
+  colorMode(RGB,255,255,255); 
+  
   // prepare the first and second colors
   SecureRandom random = new SecureRandom();
   
@@ -1527,7 +1551,6 @@ void simContrastPage4() {
   }
   
   popMatrix();
-  colorMode(RGB);
   
   textFont(mainFont, 60);
   fill(col1);
@@ -1535,8 +1558,6 @@ void simContrastPage4() {
   fill(bg);
   text("0x"+hex(bg), width*0.05 + 300, height*0.05); 
 }
-
-
 
 void simContrastPage4_print() {
 fill(0);
@@ -1640,8 +1661,6 @@ popMatrix();
 }
 
 
-
-
 void sameValue(int huemin, int huemax) {
   // recipe for same value studies (a la Johannes Itten)
   
@@ -1692,7 +1711,6 @@ void sameValue(int huemin, int huemax) {
   }
   
   popMatrix();
-  colorMode(RGB);
   
   textFont(mainFont, 60);
   fill(0);
@@ -1793,6 +1811,155 @@ text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 }
 
+void colorHarmonies() {
+  // various color harmony recipes
+  
+  colorMode(HSB,360,100,100); 
+  SecureRandom random = new SecureRandom();
+  
+  int satmin = 50;
+  int satmax = 100;
+
+  // boundaries for value
+  // (can't go too dark or else it will hardly be visible)
+  int valmin = 60;
+  int valmax = 95;
+  
+  // gap between rectangles
+  int gapsize = 10; 
+  
+  // recipe for analogous color scheme
+  // analogous color schemes use colors that are
+  // close to each other on the color wheel
+  float hue = random(360);
+  int sat = random.nextInt(satmax-satmin+1)+satmin;
+  int val = random.nextInt(valmax-valmin+1)+valmin;
+  
+  int steps = 4; 
+  float rectheight = pgheight/steps-gapsize;
+  
+  pushMatrix();
+  translate(margin, margin);
+  textFont(mainFont, 60);
+  noStroke();
+  fill(0); 
+  text("Analogous", 0, height*0.05 - margin);
+  for(int i = 0; i < steps; i++) {
+    color stripcol = color(hue, sat, val); 
+    fill(stripcol); 
+    
+    rect(0,(rectheight+gapsize)*i, pgwidth, rectheight);
+    
+    text("0x"+hex (stripcol), (i+1)*300, height*0.05 - margin);
+    
+    hue = (hue + 35)%360; 
+    
+  }
+  popMatrix();
+  
+  goToNext(); 
+  
+  // recipe for triadic color scheme
+  // triadic color schemes use colors that are
+  // evenly spaced out on the color wheel
+  hue = random(360);
+  sat = random.nextInt(satmax-satmin+1)+satmin;
+  val = random.nextInt(valmax-valmin+1)+valmin;
+  
+  steps = 3; 
+  rectheight = pgheight/steps-gapsize;
+  
+  pushMatrix();
+  translate(margin, margin);
+  textFont(mainFont, 60);
+  noStroke();
+  fill(0); 
+  text("Triadic", 0, height*0.05 - margin);
+  for(int i = 0; i < steps; i++) {
+    color stripcol = color(hue, sat, val); 
+    fill(stripcol); 
+    
+    rect(0,(rectheight+gapsize)*i, pgwidth, rectheight);
+    
+    text("0x"+hex (stripcol), (i+1)*300, height*0.05 - margin);
+    
+    hue = (hue + 120)%360; 
+    
+  }
+  popMatrix();
+  
+  goToNext(); 
+  
+  // recipe for split-complementary color scheme
+  // this color scheme uses two similar colors and
+  // one contrasting color
+  hue = random(360);
+  sat = random.nextInt(satmax-satmin+1)+satmin;
+  val = random.nextInt(valmax-valmin+1)+valmin;
+  
+  // number of strips
+  steps = 3; 
+  rectheight = pgheight/steps-gapsize;
+  
+  pushMatrix();
+  translate(margin, margin);
+  textFont(mainFont, 60);
+  noStroke();
+  fill(0); 
+  text("Split-Complementary", 0, height*0.05 - margin);
+  for(int i = 0; i < steps; i++) {
+    color stripcol = color(hue, sat, val); 
+    fill(stripcol); 
+    
+    rect(0,(rectheight+gapsize)*i, pgwidth, rectheight);
+    
+    text("0x"+hex (stripcol), i*300+600, height*0.05 - margin);
+    if(i == 0) {
+      hue = (hue + 30)%360; 
+    }
+    else {
+      hue = (hue + 150)%360; 
+    }
+  }
+  popMatrix();
+  
+  goToNext(); 
+  
+  // recipe for tetradic color scheme
+  // this color scheme makes use of
+  // two complementary pairs
+  hue = random(360);
+  sat = random.nextInt(satmax-satmin+1)+satmin;
+  val = random.nextInt(valmax-valmin+1)+valmin;
+  
+  // number of strips
+  steps = 4; 
+  rectheight = pgheight/steps-gapsize;
+  
+  pushMatrix();
+  translate(margin, margin);
+  textFont(mainFont, 60);
+  noStroke();
+  fill(0); 
+  text("Tetradic", 0, height*0.05 - margin);
+  for(int i = 0; i < steps; i++) {
+    color stripcol = color(hue, sat, val); 
+    fill(stripcol); 
+    
+    rect(0,(rectheight+gapsize)*i, pgwidth, rectheight);
+    
+    text("0x"+hex (stripcol), (i+1)*300, height*0.05 - margin);
+    if(i%2 == 0) {
+      hue = (hue + 40)%360; 
+    }
+    else {
+      hue = (hue + 140)%360; 
+    }
+  }
+  popMatrix();
+ 
+}
+
 
 void sameSaturation(int huemin, int huemax) {
   // recipe for same saturation studies
@@ -1844,7 +2011,6 @@ void sameSaturation(int huemin, int huemax) {
   }
   
   popMatrix();
-  colorMode(RGB);
   
   textFont(mainFont, 60);
   fill(0);
@@ -1880,6 +2046,8 @@ boolean notBlackorWhite(color col) {
 }
 
 void palettePage(int imgindex) { 
+  colorMode(RGB,255,255,255); 
+  
   totalCount = 0;
   
   // rinse palette before use
@@ -2002,29 +2170,42 @@ void palettePage(int imgindex) {
   
 }
 
+
 void palettePage_print() {
 fill(0);
 textAlign(LEFT);
 rectMode(CORNER);
 textFont(mainFont, 60);
-pushMatrix();
+pushMatrix(); 
 translate(200, 200 );
 String code = "";
+fill(commentFill);
+text("// recipe for palette grabber, which creates a proportional", 0,0,width*0.8,height*0.8);
+fill(0);
+code += "\n";fill(commentFill);
+text("// color palette from a given source image", 0,69,width*0.8,height*0.8);
+fill(0);
+code += "\n";code += "\n";
 code += "ArrayList<Pixel> colors = new ArrayList<Pixel>();\n";
-code += "float tolerance = 50.0;\n";
-code += "int totalCount = 0;\n";
-code += "float proptolerance = 0.005;\n";
+fill(commentFill);
+text("// tolerance for the similarities between two colors", 0,276,width*0.8,height*0.8);
+fill(0);
+code += "\n";code += "float tolerance = 50.0;\n";
+fill(commentFill);
+text("// keeps track of all the colors found", 0,414,width*0.8,height*0.8);
+fill(0);
+code += "\n";code += "int totalCount = 0;\n";
+fill(commentFill);
+text("// tolerance for the proportion of a color in an image", 0,552,width*0.8,height*0.8);
+fill(0);
+code += "\n";code += "float proptolerance = 0.005;\n";
 code += "PImage[] images = new PImage[folderimages];\n";
 code += "String[] names = new String[folderimages];\n";
-code += "\n";
-fill(commentFill);
-text("// recipe for palette grabber", 0, 483, width*0.8, height*0.8);
-fill(0);
 code += "\n";
 code += "public class Pixel {\n";
 code += "  public ArrayList pixelgroup;\n";
 code += "  public int count;\n";
-code += "}\n";
+code += "\n";
 code += "\n";
 code += "float colorDist(color c1, color c2) {\n";
 code += "  float r = red(c1) - red(c2);\n";
@@ -2032,20 +2213,14 @@ code += "  float g = green(c1) - green(c2);\n";
 code += "  float b = blue(c1) - blue(c2);\n";
 code += "\n";
 code += "  return sqrt(sq(r) + sq(g) + sq(b));\n";
-code += "}\n";
+code += "\n";
 code += "\n";
 code += "void addPixel(color currpix) {\n";
 code += "  Pixel p = new Pixel();\n";
 fill(commentFill);
-text("  // head of  the color group", 0, 1587, width*0.8, height*0.8);
+text("  // head of  the color group", 0,1932,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "  p.pixelgroup = new ArrayList();\n";
-code += "  p.pixelgroup.add(currpix);\n";
-code += "  p.count = 1;\n";
-code += "  colors.add(p);\n";
-code += "  totalCount++;\n";
-code += "}\n";
+code += "\n";code += "  p.pixelgroup = new ArrayList();\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
@@ -2053,19 +2228,25 @@ code = "";
 pushMatrix();
 translate(200, 200 );
 textFont(mainFont, 60);
+code += "  p.pixelgroup.add(currpix);\n";
+code += "  p.count = 1;\n";
+code += "  colors.add(p);\n";
+code += "  totalCount++;\n";
+code += "\n";
 code += "\n";
 code += "boolean notBlackorWhite(color col) {\n";
 code += "  return ((col != 0.0) && (col != 255.0));\n";
-code += "}\n";
+code += "\n";
 code += "\n";
 code += "void palettePage(int imgindex) {\n";
+code += "  colorMode(RGB,255,255,255);\n";
+code += "\n";
 code += "  totalCount = 0;\n";
 code += "\n";
 fill(commentFill);
-text("  // rinse palette before use", 0, 552, width*0.8, height*0.8);
+text("  // rinse palette before use", 0,1035,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "  for(int i = colors.size()-1; i >= 0 ; i--) {\n";
+code += "\n";code += "  for(int i = colors.size()-1; i >= 0 ; i--) {\n";
 code += "     colors.remove(i);\n";
 code += "  }\n";
 code += "  PImage sourceimg = images[imgindex];\n";
@@ -2077,21 +2258,12 @@ code += "  color temp = sourceimg.get(0,0);\n";
 code += "  float palettepos = sourceimg.width + 50;\n";
 code += "\n";
 fill(commentFill);
-text("  // extract colors from image", 0, 1380, width*0.8, height*0.8);
+text("  // extract colors from image", 0,1863,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-fill(commentFill);
-text("  // and add them to the palette", 0, 1449, width*0.8, height*0.8);
+code += "\n";fill(commentFill);
+text("  // and add them to the palette", 0,1932,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "  for(int i = 0; i < iheight; i++) {\n";
-code += "    for(int j = 0; j < iwidth; j++) {\n";
-code += "      color currpix = sourceimg.get(i,j);\n";
-code += "\n";
-code += "      if(notBlackorWhite(currpix)) {\n";
-code += "        if(colors.size() == 0) {\n";
-code += "          addPixel(currpix);\n";
-code += "        }\n";
+code += "\n";code += "  for(int i = 0; i < iheight; i++) {\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
@@ -2099,6 +2271,13 @@ code = "";
 pushMatrix();
 translate(200, 200 );
 textFont(mainFont, 60);
+code += "    for(int j = 0; j < iwidth; j++) {\n";
+code += "      color currpix = sourceimg.get(i,j);\n";
+code += "\n";
+code += "      if(notBlackorWhite(currpix)) {\n";
+code += "        if(colors.size() == 0) {\n";
+code += "          addPixel(currpix);\n";
+code += "        }\n";
 code += "\n";
 code += "        else {\n";
 code += "          int idx;\n";
@@ -2107,25 +2286,21 @@ code += "          int prevIdx = 0;\n";
 code += "          float minDist = 0.0;\n";
 code += "\n";
 fill(commentFill);
-text("          // look through existing colors in the palette", 0, 483, width*0.8, height*0.8);
+text("          // look through existing colors in the palette", 0,966,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "          for(idx = 0; idx < colors.size(); idx++) {\n";
+code += "\n";code += "          for(idx = 0; idx < colors.size(); idx++) {\n";
 code += "            float currDist = colorDist(currpix, (Integer) colors.get(idx).pixelgroup.get(0));\n";
 fill(commentFill);
-text("            // if the color is in the palette", 0, 690, width*0.8, height*0.8);
+text("            // if the color is in the palette", 0,1173,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "            if(currDist < tolerance) {\n";
+code += "\n";code += "            if(currDist < tolerance) {\n";
 fill(commentFill);
-text("                  // increase the count for the palette color closest to", 0, 828, width*0.8, height*0.8);
+text("                  // increase the count for the palette color closest to", 0,1311,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-fill(commentFill);
-text("                  // the current pixel", 0, 897, width*0.8, height*0.8);
+code += "\n";fill(commentFill);
+text("                  // the current pixel", 0,1380,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "                  if(foundMatch && (currDist < minDist)) {\n";
+code += "\n";code += "                  if(foundMatch && (currDist < minDist)) {\n";
 code += "                    colors.get(idx).count++;\n";
 code += "                    colors.get(prevIdx).count--;\n";
 code += "                    colors.get(idx).pixelgroup.add(currpix);\n";
@@ -2134,13 +2309,6 @@ code += "                    prevIdx = idx;\n";
 code += "                    minDist = currDist;\n";
 code += "                  }\n";
 code += "                  else if(!foundMatch) {\n";
-code += "                    colors.get(idx).count++;\n";
-code += "                    colors.get(idx).pixelgroup.add(currpix);\n";
-code += "                    totalCount++;\n";
-code += "                    foundMatch = true;\n";
-code += "                    prevIdx = idx;\n";
-code += "                    minDist = currDist;\n";
-code += "                  }\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
@@ -2148,6 +2316,13 @@ code = "";
 pushMatrix();
 translate(200, 200 );
 textFont(mainFont, 60);
+code += "                    colors.get(idx).count++;\n";
+code += "                    colors.get(idx).pixelgroup.add(currpix);\n";
+code += "                    totalCount++;\n";
+code += "                    foundMatch = true;\n";
+code += "                    prevIdx = idx;\n";
+code += "                    minDist = currDist;\n";
+code += "                  }\n";
 code += "                }\n";
 code += "          }\n";
 code += "\n";
@@ -2171,19 +2346,6 @@ code += "    }\n";
 code += "  }\n";
 code += "  rectMode(CORNER);\n";
 code += "  float ypos = 0f;\n";
-code += "\n";
-code += "  pushMatrix();\n";
-fill(commentFill);
-text("  // place image a little to the right of your margins", 0, 1725, width*0.8, height*0.8);
-fill(0);
-code += "\n";
-code += "  translate(margin + 700, margin);\n";
-code += "  image(sourceimg, 0,0);\n";
-fill(commentFill);
-text("  // place palette beside image", 0, 1932, width*0.8, height*0.8);
-fill(0);
-code += "\n";
-code += "  for(int i = 0; i < colors.size(); i++) {\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
@@ -2191,23 +2353,32 @@ code = "";
 pushMatrix();
 translate(200, 200 );
 textFont(mainFont, 60);
+code += "\n";
+code += "  pushMatrix();\n";
+fill(commentFill);
+text("  // place image a little to the right of your margins", 0,138,width*0.8,height*0.8);
+fill(0);
+code += "\n";code += "  translate(margin + 700, margin);\n";
+code += "  image(sourceimg, 0,0);\n";
+fill(commentFill);
+text("  // place palette beside image", 0,345,width*0.8,height*0.8);
+fill(0);
+code += "\n";code += "  for(int i = 0; i < colors.size(); i++) {\n";
 code += "    float prop = colors.get(i).count / ((float)netCount);\n";
 code += "\n";
 fill(commentFill);
-text("    // if there is enough of the color in the image, display it", 0, 138, width*0.8, height*0.8);
+text("    // if there is enough of the color in the image, display it", 0,621,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "    if(prop >= proptolerance) {\n";
+code += "\n";code += "    if(prop >= proptolerance) {\n";
 code += "      float rheight = pgheight*prop;\n";
 code += "      float totred = 0;\n";
 code += "      float totgreen = 0;\n";
 code += "      float totblue = 0;\n";
 code += "\n";
 fill(commentFill);
-text("      // calculate an average value of the colors in each group", 0, 621, width*0.8, height*0.8);
+text("      // calculate an average value of the colors in each group", 0,1104,width*0.8,height*0.8);
 fill(0);
-code += "\n";
-code += "      int groupsize = colors.get(i).pixelgroup.size();\n";
+code += "\n";code += "      int groupsize = colors.get(i).pixelgroup.size();\n";
 code += "      for(int j = 0; j < groupsize; j++) {\n";
 code += "        Pixel thepixel = colors.get(i);\n";
 code += "        color currcolor = (Integer) thepixel.pixelgroup.get(j);\n";
@@ -2220,16 +2391,6 @@ code += "\n";
 code += "      stroke(paletteColor);\n";
 code += "      fill(paletteColor);\n";
 code += "      rect(palettepos, ypos, 300, rheight);\n";
-code += "\n";
-fill(commentFill);
-text("      // top it off with the hex value for the colors", 0, 1656, width*0.8, height*0.8);
-fill(0);
-code += "\n";
-code += "      textFont(mainFont, 40);\n";
-code += "      fill(paletteColor);\n";
-code += "      text(\"0x\"+hex(paletteColor), palettepos + 350, ypos+30);\n";
-code += "\n";
-code += "      ypos += rheight;\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
 goToNext();
@@ -2238,16 +2399,25 @@ pushMatrix();
 translate(200, 200 );
 textFont(mainFont, 60);
 code += "\n";
+fill(commentFill);
+text("      // top it off with the hex value for the colors", 0,69,width*0.8,height*0.8);
+fill(0);
+code += "\n";code += "      textFont(mainFont, 40);\n";
+code += "      fill(paletteColor);\n";
+code += "      text(\"0x\"+hex(paletteColor), palettepos + 350, ypos+30);\n";
+code += "\n";
+code += "      ypos += rheight;\n";
+code += "\n";
 code += "    }\n";
 code += "  }\n";
 code += "\n";
 code += "  popMatrix();\n";
 code += "\n";
-code += "}\n";
+code += "\n";
 text(code, 0, 0, width*0.8, height*0.8);
 popMatrix();
-
 }
+
 
 void titlePage() { 
   
